@@ -1,8 +1,11 @@
 import React from 'react'
+import LoginButton from '../components/LoginButton'
 
 const Landing = () => {
   return (
-    <div>Landing</div>
+    <React.Fragment>
+      <LoginButton />
+    </React.Fragment>
   )
 }
 
