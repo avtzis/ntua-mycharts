@@ -4,12 +4,11 @@ import { useCookies } from 'react-cookie';
 
 const LoginButton = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  const [loggedIn, setLoggedIn] = React.useState(false);
 
   const handleSuccess = credentialResponse => {
     setCookie('token', credentialResponse['credential'], { sameSite: 'strict' });
     console.log('Login successful');
-    setLoggedIn(true); //should use redirect instead
+    window.location.href = '/dashboard';
   };
 
   const handleError = () => {
@@ -18,13 +17,8 @@ const LoginButton = () => {
   };
 
   return (
-    <React.Fragment>
-      {
-        loggedIn ? 
-          <div>Logged in</div>
-          :
-          <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
-      }
+    <React.Fragment>      
+      <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
     </React.Fragment>
   )
 }

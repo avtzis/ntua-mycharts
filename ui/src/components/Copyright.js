@@ -1,6 +1,5 @@
 import { Link, Typography } from '@mui/material'
 import React from 'react'
-import GitHubIcon from '@mui/icons-material/GitHub';
 
 const Copyright = () => {
   return (
@@ -10,7 +9,6 @@ const Copyright = () => {
         myCharts
       </Link>
       {' '}{new Date().getFullYear()}{'.'}
-      <GitHubIcon />
     </Typography>
   )
 }
