@@ -34,7 +34,7 @@ const Layout = () => {
           <Toolbar disableGutters>
             <Box sx={{display: 'flex'}}>
               <Switch checked={darkMode} onChange={handleChange} />
-              <Button onClick={handleVerify}>Verify Login</Button>
+              <Button onClick={handleVerify} variant='contained'>Verify Login</Button>
             </Box>
           </Toolbar>
         </Container>
