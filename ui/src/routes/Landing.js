@@ -15,22 +15,19 @@ const Landing = () => {
         whiteSpace: "nowrap"
     }}>
           <Paper variant='outlined' sx={{ width: '100%', marginTop: "10px", marginBottom: "10px" }} position={'relative'}>
-              <Paper variant='outlined' position={'relative'} elevation={1} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
+              <Paper variant='outlined' position={'relative'} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
                 <img src={image} alt="Preview" width="100%" height="100%" />
               </Paper>
-              <Paper variant='outlined'  position={'relative'} elevation={1} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
+              <Paper variant='outlined'  position={'relative'} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
                 <img src={image} alt="Preview" width="100%" height="100%" />
               </Paper>
-              <Paper variant='outlined'  position={'relative'} elevation={1} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
+              <Paper variant='outlined'  position={'relative'} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
                 <img src={image} alt="Preview" width="100%" height="100%" />
               </Paper>
               
           </Paper>
       </Container>
-      <Container 
-      alignItems="center"
-      justifyContent="center"
-      >
+      <Container>
         <center>
           <p>
             Press a diagram above to see how this works, or login with you Google account by pressing the button below
