@@ -1,15 +1,19 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { AppBar, Container, CssBaseline, Switch, ThemeProvider, Toolbar } from '@mui/material'
+import { AppBar, Container, CssBaseline, Switch, ThemeProvider, Toolbar, useMediaQuery } from '@mui/material'
 import Copyright from '../components/Copyright';
 import darkTheme from '../utilities/darkTheme';
 import mainTheme from '../utilities/mainTheme';
+import { useCookies } from 'react-cookie';
 
 const Layout = () => {
-  const [darkMode, setDarkMode] = React.useState(false);
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [cookies, setCookie] = useCookies(['dark']); 
+  const [darkMode, setDarkMode] = React.useState(cookies['dark'] === undefined ? prefersDarkMode : cookies['dark']);
 
   const handleChange = (event) => {
     setDarkMode(event.target.checked);
+    setCookie('dark', !darkMode, { sameSite: 'strict' });
   };
 
   return (
