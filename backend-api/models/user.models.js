@@ -9,6 +9,9 @@ let user = new Schema(
         lastLogin: Date,
         credits:Number,
         googleId:String,
+        email:String,
+        name:String,
+        avatar:String,
 
     }, {
         timestamps: true

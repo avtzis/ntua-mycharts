@@ -1,42 +1,31 @@
 require('dotenv').config()
 const mongoose = require('mongoose');
 const express = require('express')
-const passport = require('passport')
 const User = require("./models/user.models");
 const session = require('express-session');
-
-
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 const app = express()
-const port = 3000
+const port = 3001
 
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+const {authorization,authentication} = require('./helpers/auth');
+
+
+app.use(express.json());
+
+app.use(cookieParser())
 
 mongoose.connect('mongodb://127.0.0.1:27017/mycharts');
 
-app.use(session({ secret: 'melody hensley is my spirit animal' }));
 
-
-passport.use(new GoogleStrategy({
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`
-    },
-    function(accessToken, refreshToken, profile, cb) {
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return cb(err, user);
-        });
-    }
-));
-
-passport.serializeUser(function(user, done) {
-    done(null, user);
+//cors
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
-app.use(passport.initialize())
-app.use(passport.session())
 function authenticationMiddleware () {
     return function (req, res, next) {
         if (req.isAuthenticated()) {
@@ -48,13 +37,38 @@ function authenticationMiddleware () {
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
-app.get('/secret',authenticationMiddleware()
-,(req, res) => {
-    res.send(req.user)
+app.get('/secret', authorization,(req, res) => {
+    res.send(req.userId)
 })
 
-app.get('/login',
-    passport.authenticate('google', { scope: ['profile'] }));
+app.post('/login',async (req, res) => {
+
+    const googleToken = req.body.token;
+
+    const user = await authentication(googleToken);
+
+
+
+
+    const token = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_TOKEN_KEY,
+        {
+            expiresIn: "24h",
+        }
+    );
+
+
+    return res
+        .cookie("access_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+        })
+        .status(200)
+        .json({ message: "Logged in successfully 😊 👌" });
+
+
+});
 
 app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
