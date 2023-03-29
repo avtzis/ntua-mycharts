@@ -9,7 +9,7 @@ import { useCookies } from 'react-cookie';
 const Layout = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [cookies, setCookie] = useCookies(['dark']); 
-  const [darkMode, setDarkMode] = React.useState(cookies['dark'] === undefined ? prefersDarkMode : cookies['dark']);
+  const [darkMode, setDarkMode] = React.useState(cookies['dark'] === undefined ? (prefersDarkMode === 'false' ? false : true) : (cookies['dark'] === 'false' ? false : true));
 
   const handleChange = (event) => {
     setDarkMode(event.target.checked);
