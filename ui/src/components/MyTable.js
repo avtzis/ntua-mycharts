@@ -7,6 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { IconButton } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -17,20 +20,6 @@ const columns = [
     minWidth: 170,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
   },
 ];
 
@@ -57,6 +46,31 @@ const rows = [
   createData('Brazil', 'BR', 210147125, 8515767),
 ];
 
+const TableRow2 = props => {
+  const { row } = props;
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <TableRow hover role="checkbox" tabIndex={-1}>
+      <TableCell>
+        <IconButton size='small' onClick={() => setOpen(!open)}>
+          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        </IconButton>
+      </TableCell>
+      {columns.map((column) => {
+        const value = row[column.id];
+        return (
+          <TableCell key={column.id} align={column.align}>
+            {column.format && typeof value === 'number'
+              ? column.format(value)
+              : value}
+          </TableCell>
+        );
+      })}
+    </TableRow>
+  )
+}
+
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -76,6 +90,7 @@ export default function StickyHeadTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
+              <TableCell />
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
@@ -92,18 +107,7 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
+                  <TableRow2 row={row} key={row.code}/>
                 );
               })}
           </TableBody>

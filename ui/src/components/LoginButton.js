@@ -1,18 +1,21 @@
 import React from 'react'
 import { GoogleLogin } from '@react-oauth/google'
-import { useCookies } from 'react-cookie';
+import axios from 'axios';
+import api from '../utilities/api'
 
 const LoginButton = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
   const handleSuccess = credentialResponse => {
-    setCookie('token', credentialResponse['credential'], { sameSite: 'strict' });
-    console.log('Login successful');
-    window.location.href = '/dashboard';
+    axios.post(`${api}/login`, {
+      token: credentialResponse['credential']
+    }).then(response => {
+      console.log(response.data.message);
+      window.location.href = '/dashboard';
+    }).catch(error => {
+      console.log(error.response.data.message);
+    })
   };
 
   const handleError = () => {
-    if(cookies['token']) removeCookie('token');
     console.log('Login failed');
   };
 
