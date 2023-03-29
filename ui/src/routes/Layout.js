@@ -24,6 +24,14 @@ const Layout = () => {
     }).catch(error => {
       console.error(error.response.data.message)
     })
+  };
+
+  const handleLogout = () => {
+    axios.post(`${api}/logout`).then(response => {
+      console.log(response.data.message);
+    }).catch(error => {
+      console.error(error.response.data.message);
+    })
   }
 
   return (
@@ -34,7 +42,8 @@ const Layout = () => {
           <Toolbar disableGutters>
             <Box sx={{display: 'flex'}}>
               <Switch checked={darkMode} onChange={handleChange} />
-              <Button onClick={handleVerify} variant='contained'>Verify Login</Button>
+              <Button onClick={handleVerify} variant='contained' color='secondary'>Verify Login</Button>
+              <Button onClick={handleLogout} variant='contained' color='secondary'>Logout</Button>
             </Box>
           </Toolbar>
         </Container>

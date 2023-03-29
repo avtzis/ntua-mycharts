@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { IconButton } from '@mui/material';
+import { Box, Collapse, IconButton, Typography, Button } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
@@ -46,28 +46,56 @@ const rows = [
   createData('Brazil', 'BR', 210147125, 8515767),
 ];
 
-const TableRow2 = props => {
+const Row = props => {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
   return (
-    <TableRow hover role="checkbox" tabIndex={-1}>
-      <TableCell>
-        <IconButton size='small' onClick={() => setOpen(!open)}>
-          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-        </IconButton>
-      </TableCell>
-      {columns.map((column) => {
-        const value = row[column.id];
-        return (
-          <TableCell key={column.id} align={column.align}>
-            {column.format && typeof value === 'number'
-              ? column.format(value)
-              : value}
-          </TableCell>
-        );
-      })}
-    </TableRow>
+    <React.Fragment>
+      <TableRow hover role="checkbox" tabIndex={-1}>
+        <TableCell>
+          <IconButton size='small' onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        {columns.map((column) => {
+          const value = row[column.id];
+          return (
+            <TableCell key={column.id} align={column.align}>
+              {column.format && typeof value === 'number'
+                ? column.format(value)
+                : value}
+            </TableCell>
+          );
+        })}
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{m: 1}}>
+              <Table size='small'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>pdf</TableCell>
+                    <TableCell>png</TableCell>
+                    <TableCell>svg</TableCell>
+                    <TableCell>html</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
   )
 }
 
@@ -107,7 +135,7 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow2 row={row} key={row.code}/>
+                  <Row row={row} key={row.code}/>
                 );
               })}
           </TableBody>

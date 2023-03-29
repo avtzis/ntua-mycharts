@@ -9,7 +9,7 @@ const LoginButton = () => {
       token: credentialResponse['credential']
     }).then(response => {
       console.log(response.data.message);
-      window.location.href = '/dashboard';
+      //window.location.href = '/dashboard';
     }).catch(error => {
       console.log(error.response.data.message);
     })
