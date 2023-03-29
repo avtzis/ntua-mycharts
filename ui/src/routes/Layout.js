@@ -13,6 +13,8 @@ const Layout = () => {
   const [cookies, setCookie] = useCookies(['dark']); 
   const [darkMode, setDarkMode] = React.useState(cookies['dark'] === undefined ? (prefersDarkMode === 'false' ? false : true) : (cookies['dark'] === 'false' ? false : true));
 
+  axios.defaults.withCredentials = true;
+
   const handleChange = (event) => {
     setDarkMode(event.target.checked);
     setCookie('dark', !darkMode, { sameSite: 'strict' });
