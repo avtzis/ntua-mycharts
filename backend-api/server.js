@@ -70,12 +70,6 @@ app.post('/login',async (req, res) => {
 
 });
 
-app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
-    function(req, res) {
-        // Successful authentication, redirect home.
-        res.redirect('/');
-    });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
