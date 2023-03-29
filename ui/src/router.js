@@ -7,6 +7,7 @@ import Error from './routes/Error';
 import Landing from './routes/Landing';
 import About from './routes/About';
 import Dashboard from './routes/Dashboard';
+import Create from './routes/Create';
 
 const router = createBrowserRouter([{
   path: '/',
@@ -25,6 +26,10 @@ const router = createBrowserRouter([{
       path: '/dashboard',
       element: <Dashboard />
     },
+    {
+      path: '/create',
+      element: <Create />
+    }
   ]
 }]);
 

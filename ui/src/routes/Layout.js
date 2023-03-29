@@ -46,6 +46,7 @@ const Layout = () => {
               <Switch checked={darkMode} onChange={handleChange} />
               <Button onClick={handleVerify} variant='contained' color='secondary'>Verify Login</Button>
               <Button onClick={handleLogout} variant='contained' color='secondary'>Logout</Button>
+              <Button href='/create' variant='contained' color='secondary'>Create</Button>
             </Box>
           </Toolbar>
         </Container>
