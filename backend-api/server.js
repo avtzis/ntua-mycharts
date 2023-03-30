@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const app = express()
 const port = 3001
 const {authorization,authentication} = require('./helpers/auth');
+const userRouter = require('./routes/user.routes');
 
 const cors = require('cors');
 
@@ -50,6 +51,7 @@ app.get('/', (req, res) => {
 app.get('/secret', authorization,(req, res) => {
     res.send(req.userId)
 })
+app.get('/user', authorization,userRouter);
 
 app.post('/login',async (req, res) => {
 
