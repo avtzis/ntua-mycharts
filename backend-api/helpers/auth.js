@@ -32,6 +32,7 @@ const authentication = async (token) => {
   if(!user) {
     user = new User({ googleId, email, name, avatar});
   }
+  user.lastLogin = new Date();
   await user.save();
 
   return user
