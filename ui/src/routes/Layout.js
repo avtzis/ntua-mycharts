@@ -1,9 +1,20 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+
+// Material UI Components
 import { AppBar, Container, CssBaseline, Switch, ThemeProvider, Toolbar, useMediaQuery, Button, Box } from '@mui/material'
+
+// Custom Components
 import Copyright from '../components/Copyright';
+
+// Themes
 import darkTheme from '../utilities/darkTheme';
 import mainTheme from '../utilities/mainTheme';
+
+// Font
+import 'fontsource-roboto';
+
+// Utilities
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import api from '../utilities/api';
@@ -17,7 +28,7 @@ const Layout = () => {
 
   const handleChange = (event) => {
     setDarkMode(event.target.checked);
-    setCookie('dark', !darkMode, { sameSite: 'strict' });
+    setCookie('dark', !darkMode, { sameSite: 'none' });
   };
 
   const handleVerify = () => {
