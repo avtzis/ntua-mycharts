@@ -80,22 +80,28 @@ const Layout = () => {
       <Box sx={{display: 'flex'}}>
         <AppBar position='fixed' sx={{zIndex: theme.zIndex.drawer + 1, py: 1, transition: transitionMargin('leave'), ...(open && {ml: 240, width: `calc(100% - ${240}px)`, transition: transitionMargin('enter')})}}>
           <Toolbar sx={{pr: '24px'}}>
-            <IconButton aria-label='hamburger' color='inherit' size='large' edge='start' sx={{mr: '30px'}} onClick={() => setOpen(!open)}>
-              {open ? <ChevronLeftIcon /> : <MenuIcon />}
-            </IconButton>
-            <AutoGraphIcon fontSize='large' sx={{mr: 1}}/>
-            <Typography variant='h6' href='/' component='a' noWrap sx={{fontFamily: 'monospace', fontWeight: 700, color: 'inherit', textDecoration: 'none', letterSpacing: '.1rem'}}>
-              myCharts
-            </Typography>
-            <Box sx={{display: 'flex'}}>
-              <Switch checked={darkMode} onChange={handleChange} />
-              <Button onClick={handleVerify} color='inherit'>Verify Login</Button>
-              <Button onClick={handleLogout} color='inherit'>Logout</Button>
-              <Button href='/create' color='inherit'>Create</Button>
+            <Box sx={{display: 'flex', alignItems: 'center'}}>
+              <IconButton aria-label='hamburger' color='inherit' size='large' edge='start' sx={{mr: '30px'}} onClick={() => setOpen(!open)}>
+                {open ? <ChevronLeftIcon /> : <MenuIcon />}
+              </IconButton>
+              <AutoGraphIcon fontSize='large' sx={{mr: 1}}/>
+              <Typography variant='h6' href='/' component='a' noWrap sx={{fontFamily: 'monospace', fontWeight: 700, color: 'inherit', textDecoration: 'none', letterSpacing: '.1rem'}}>
+                myCharts
+              </Typography>
             </Box>
-            <Box sx={{backgroundColor: alpha(theme.palette.common.white, 0.15), '&:hover': {backgroundColor: alpha(theme.palette.common.white, 0.25)}, p: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', width: 'auto'}}>
-              <SearchIcon />
-              <InputBase placeholder='Search...' sx={{color: 'inherit', pl: 1, transition: theme.transitions.create('width'), width: 'auto'}} />
+            <Box sx={{px: 3, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <Box>
+                <Button onClick={handleVerify} color='inherit'>Verify Login</Button>
+                <Button href='/create' color='inherit'>Create</Button>
+              </Box>
+              <Box sx={{mr: 30, backgroundColor: alpha(theme.palette.common.white, 0.15), '&:hover': {backgroundColor: alpha(theme.palette.common.white, 0.25)}, p: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: 400, borderRadius: 15}}>
+                <SearchIcon />
+                <InputBase placeholder='Search...' sx={{color: 'inherit', pl: 1, transition: theme.transitions.create('width'), width: 'auto'}} />
+              </Box>
+              <Box>
+                <Switch checked={darkMode} onChange={handleChange} />
+                <Button onClick={handleLogout} color='inherit'>Logout</Button>
+              </Box>
             </Box>
           </Toolbar>
         </AppBar>
