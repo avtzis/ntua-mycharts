@@ -19,7 +19,7 @@ const Dashboard = () => {
           </ListItem>
         </Stack>
       </Container>
-      <Container>
+      <Container maxWidth='xl'>
         <Grid container spacing={3}>
           <Grid item md={6}>
             <MyTable />

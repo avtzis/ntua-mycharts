@@ -84,10 +84,10 @@ const Row = props => {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small'>Download</Button>}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
