@@ -9,6 +9,13 @@ import About from './routes/About';
 import Dashboard from './routes/Dashboard';
 import Create from './routes/Create';
 
+// Loaders
+import getUser from './utilities/getUser';
+
+// Import and Configure Axios
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+
 const router = createBrowserRouter([{
   path: '/',
   element: <Layout />,
@@ -24,7 +31,8 @@ const router = createBrowserRouter([{
     },
     {
       path: '/dashboard',
-      element: <Dashboard />
+      element: <Dashboard />,
+      loader: getUser,
     },
     {
       path: '/create',

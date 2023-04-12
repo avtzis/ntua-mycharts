@@ -2,8 +2,13 @@ import { Paper, Grid, Container, /* Box, Typography, */ Divider, ListItem, ListI
 import React from 'react'
 import MyTable from '../components/MyTable'
 import image from '../temp/output-chart.png'
+import { useLoaderData } from 'react-router-dom'
 
 const Dashboard = () => {
+  const data = useLoaderData();
+  const user = data.user;
+  console.log(data);
+
   return (
     <React.Fragment>
       <Container maxWidth='md' sx={{py: 2}}>
@@ -15,7 +20,7 @@ const Dashboard = () => {
             <ListItemText primary='available credits' secondary='2' />
           </ListItem>
           <ListItem>
-            <ListItemText primary='last login' secondary='2 hours ago' />
+            <ListItemText primary='last login' secondary={user['lastLogin']} />
           </ListItem>
         </Stack>
       </Container>

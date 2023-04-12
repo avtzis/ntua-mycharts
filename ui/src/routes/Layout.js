@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 // Material UI Components
-import { AppBar, CssBaseline, Switch, ThemeProvider, Toolbar, useMediaQuery, Button, Box, IconButton, Typography, InputBase, Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import { AppBar, CssBaseline, Switch, ThemeProvider, Toolbar, useMediaQuery, Button, Box, IconButton, Typography, InputBase, Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Menu, MenuItem } from '@mui/material'
 
 // Custom Components
 import Copyright from '../components/Copyright';
@@ -19,12 +19,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import SearchIcon from '@mui/icons-material/Search';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 // Utilities
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import api from '../utilities/api';
 import { alpha } from '@mui/material/styles'
+import getUser from '../utilities/getUser';
 
 const Layout = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -32,8 +34,10 @@ const Layout = () => {
   const [darkMode, setDarkMode] = React.useState(cookies['dark'] === undefined ? (prefersDarkMode === 'false' ? false : true) : (cookies['dark'] === 'false' ? false : true));
   const [theme, setTheme] = React.useState(mainTheme);
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [user, setUser] = React.useState({});
 
-  axios.defaults.withCredentials = true;
+  const openMenu = Boolean(anchorEl);
 
   const transition = action => {
     return theme.transitions.create('width', {
@@ -53,17 +57,17 @@ const Layout = () => {
     setTheme(darkMode ? darkTheme : mainTheme);
   }, [darkMode]);
 
+  React.useEffect(() => {
+    getUser().then(data => {
+      setUser(data['user']);
+    }).catch(error => {
+      console.log('not logged in', error);
+    })
+  }, []);
+
   const handleChange = (event) => {
     setDarkMode(event.target.checked);
     setCookie('dark', !darkMode, { sameSite: 'none' });
-  };
-
-  const handleVerify = () => {
-    axios.post(`${api}/verifyLogin`).then(response => {
-      console.log(response.data.message);
-    }).catch(error => {
-      console.error(error.response.data.message)
-    })
   };
 
   const handleLogout = () => {
@@ -72,7 +76,15 @@ const Layout = () => {
     }).catch(error => {
       console.error(error.response.data.message);
     })
-  }
+  };
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -91,8 +103,9 @@ const Layout = () => {
             </Box>
             <Box sx={{px: 3, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
               <Box>
-                <Button onClick={handleVerify} color='inherit'>Verify Login</Button>
+                <Button href='/dashboard' color='inherit'>Dashboard</Button>
                 <Button href='/create' color='inherit'>Create</Button>
+                <Button href='/purchase' color='inherit'>Purchase Credits</Button>
               </Box>
               <Box sx={{mr: 30, backgroundColor: alpha(theme.palette.common.white, 0.15), '&:hover': {backgroundColor: alpha(theme.palette.common.white, 0.25)}, p: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: 400, borderRadius: 15}}>
                 <SearchIcon />
@@ -100,7 +113,20 @@ const Layout = () => {
               </Box>
               <Box>
                 <Switch checked={darkMode} onChange={handleChange} />
-                <Button onClick={handleLogout} color='inherit'>Logout</Button>
+                <IconButton onClick={handleClick} aria-controls={openMenu ? 'account-menu' : undefined} aria-haspopup='true' aria-expanded={openMenu ? 'true' : undefined}>
+                  <Avatar src={user.avatar} />
+                </IconButton>
+                <Menu id='account-menu' anchorEl={anchorEl} open={openMenu} onClose={handleClose} onClick={handleClose}>
+                  <MenuItem onClick={handleClose}>
+                    <Avatar /> Profile
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem onClick={handleLogout}>
+                    <ListItemIcon>
+                      <LogoutIcon /> Logout
+                    </ListItemIcon>
+                  </MenuItem>
+                </Menu>
               </Box>
             </Box>
           </Toolbar>
@@ -132,7 +158,7 @@ const Layout = () => {
             ))}
           </List>
         </Drawer>
-        <Box component='main' sx={{flexGrow: 1, overflow: 'auto', pt: 15}}>
+        <Box component='main' sx={{flexGrow: 1, overflow: 'auto', pt: 10}}>
           <Outlet />
           <footer>
             <Copyright />
