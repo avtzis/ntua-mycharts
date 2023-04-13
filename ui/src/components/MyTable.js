@@ -10,45 +10,33 @@ import TableRow from '@mui/material/TableRow';
 import { Box, Collapse, IconButton, Button } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import options from '../temp/chart-options1.json'
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-  {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
+  { id: 'type', label: 'Type', minWidth: 50 },
+  { id: 'name', label: 'Chart Name', minWidth: 100 },
+  { id: 'created', label: 'Created on', minWidth: 100 },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function createData(type, name, created) {
+  return { type, name, created };
 }
 
 const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
+  createData('line', 'Historic World Population by Region', '22/03/2023 14:24'),
 ];
 
 const Row = props => {
-  const { row } = props;
+  const { row, onChangePreview } = props;
   const [open, setOpen] = React.useState(false);
+
+  const handlePreview = () => {
+    onChangePreview(
+      <HighchartsReact highcharts={highcharts} options={{...options, chart:{...options.chart, height: 492}}} />
+    )
+  }
 
   return (
     <React.Fragment>
@@ -68,9 +56,12 @@ const Row = props => {
             </TableCell>
           );
         })}
+        <TableCell>
+          <Button onClick={handlePreview}>Preview</Button>
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{m: 1}}>
               <Table size='small'>
@@ -99,7 +90,8 @@ const Row = props => {
   )
 }
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable(props) {
+  const { onChangePreview } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -114,7 +106,7 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ height: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -128,6 +120,7 @@ export default function StickyHeadTable() {
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -135,7 +128,7 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <Row row={row} key={row.code}/>
+                  <Row row={row} key={row.code} onChangePreview={onChangePreview} />
                 );
               })}
           </TableBody>
