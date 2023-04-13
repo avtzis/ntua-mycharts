@@ -14,6 +14,7 @@ import getUser from './utilities/getUser';
 
 // Import and Configure Axios
 import axios from 'axios';
+import Purchase from './routes/Purchase';
 axios.defaults.withCredentials = true;
 
 const router = createBrowserRouter([{
@@ -37,6 +38,10 @@ const router = createBrowserRouter([{
     {
       path: '/create',
       element: <Create />
+    },
+    {
+      path: '/purchase',
+      element: <Purchase />
     }
   ]
 }]);

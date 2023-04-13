@@ -1,7 +1,6 @@
 import { Paper, Grid, Container, /* Box, Typography, */ Divider, ListItem, ListItemText, Stack } from '@mui/material'
 import React from 'react'
 import MyTable from '../components/MyTable'
-//import image from '../temp/output-chart.png'
 import { useLoaderData } from 'react-router-dom'
 import highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -35,7 +34,6 @@ const Dashboard = () => {
           </Grid>
           <Grid item md={6}>
             <Paper variant='outlined' sx={{ width: '100%' }}>
-              {/* <img src={image} alt='png' style={{ maxHeight: 450 }} /> */}
               <HighchartsReact highcharts={highcharts} options={{...options, chart:{...options.chart, height: 492}}} />
             </Paper>
           </Grid>

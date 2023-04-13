@@ -107,7 +107,7 @@ const Layout = () => {
                 <Button href='/create' color='inherit'>Create</Button>
                 <Button href='/purchase' color='inherit'>Purchase Credits</Button>
               </Box>
-              <Box sx={{mr: 30, backgroundColor: alpha(theme.palette.common.white, 0.15), '&:hover': {backgroundColor: alpha(theme.palette.common.white, 0.25)}, p: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: 400, borderRadius: 15}}>
+              <Box sx={{mr: 55, backgroundColor: alpha(theme.palette.common.white, 0.15), '&:hover': {backgroundColor: alpha(theme.palette.common.white, 0.25)}, p: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: 400, borderRadius: 15}}>
                 <SearchIcon />
                 <InputBase placeholder='Search...' sx={{color: 'inherit', pl: 1, transition: theme.transitions.create('width'), width: 'auto'}} />
               </Box>
