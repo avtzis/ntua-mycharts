@@ -12,31 +12,49 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import options from '../temp/chart-options1.json'
+import axios from 'axios';
+import api from '../utilities/api';
+import fileDownload from 'js-file-download';
+
+const dateFormat = date => {
+  date = new Date(date);
+  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
+}
+
+const BlankPreview = () => {
+  return (
+    <Box sx={{height: 492, display: 'flex', alignItems: 'center', justifyContent: 'center'}} />
+  )
+}
 
 const columns = [
   { id: 'type', label: 'Type', minWidth: 50 },
   { id: 'name', label: 'Chart Name', minWidth: 100 },
-  { id: 'created', label: 'Created on', minWidth: 100 },
-];
-
-function createData(type, name, created) {
-  return { type, name, created };
-}
-
-const rows = [
-  createData('line', 'Historic World Population by Region', '22/03/2023 14:24'),
+  { id: 'createdOn', label: 'Created on', minWidth: 100, format: dateFormat },
 ];
 
 const Row = props => {
   const { row, onChangePreview } = props;
   const [open, setOpen] = React.useState(false);
 
-  const handlePreview = () => {
-    onChangePreview(
-      <HighchartsReact highcharts={highcharts} options={{...options, chart:{...options.chart, height: 492}}} />
-    )
+  const handlePreview = options => {
+    onChangePreview(BlankPreview);
+    setTimeout(() => {
+      onChangePreview(
+        <HighchartsReact highcharts={highcharts} options={{...options, chart:{...options.chart, height: 492, width: 730}}} />
+      )
+    }, 10);
   }
+
+  const handleDownload = type => {
+    axios.get(`${api}/chart/download/${row._id}?type=${type}`, {
+      responseType: 'blob'
+    }).then(response => {
+      fileDownload(response.data, `chart-${row._id}.${type}`);
+    }).catch(error => {
+      console.error(error);
+    });
+  };
 
   return (
     <React.Fragment>
@@ -50,14 +68,12 @@ const Row = props => {
           const value = row[column.id];
           return (
             <TableCell key={column.id} align={column.align}>
-              {column.format && typeof value === 'number'
-                ? column.format(value)
-                : value}
+              {column.format ? column.format(value) : value}
             </TableCell>
           );
         })}
         <TableCell>
-          <Button onClick={handlePreview}>Preview</Button>
+          <Button onClick={() => handlePreview(row.options)}>Preview</Button>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -75,10 +91,10 @@ const Row = props => {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>{<Button variant='contained' size='small'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained' size='small'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained' size='small'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained' size='small'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small' onClick={() => handleDownload('pdf')}>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small' onClick={() => handleDownload('png')}>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small' onClick={() => handleDownload('svg')}>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small' onClick={() => handleDownload('html')}>Download</Button>}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -91,7 +107,7 @@ const Row = props => {
 }
 
 export default function StickyHeadTable(props) {
-  const { onChangePreview } = props;
+  const { onChangePreview, charts } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -124,11 +140,11 @@ export default function StickyHeadTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {charts
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <Row row={row} key={row.code} onChangePreview={onChangePreview} />
+                  <Row row={row} key={row.createdOn} onChangePreview={onChangePreview} />
                 );
               })}
           </TableBody>
@@ -137,7 +153,7 @@ export default function StickyHeadTable(props) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={charts.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

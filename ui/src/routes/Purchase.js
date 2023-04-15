@@ -1,36 +1,8 @@
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Typography } from '@mui/material'
+import axios from 'axios'
 import React from 'react'
-
-const tiers = [
-  {
-    title: 'Bronze',
-    subheader: undefined,
-    price: 9.99,
-    credits: 15,
-    color: 'peru'
-  },
-  {
-    title: 'Silver',
-    subheader: undefined,
-    price: 24.99,
-    credits: 50,
-    color: 'silver'
-  },
-  {
-    title: 'Gold',
-    subheader: 'Most Popular',
-    price: 49.99,
-    credits: 150,
-    color: 'goldenrod'
-  },
-  {
-    title: 'Platinum',
-    subheader: 'Ultra Premium',
-    price: 99.99,
-    credits: 400,
-    color: 'turquoise'
-  },
-]
+import { useLoaderData } from 'react-router-dom'
+import api from '../utilities/api'
 
 const blank = {
   title: undefined,
@@ -38,6 +10,10 @@ const blank = {
 }
 
 const Purchase = () => {
+  const data = useLoaderData();
+  let tiers = data.tiers;
+  tiers.sort((a, b) => a.price > b.price);
+
   const [openDialog, setOpenDialog] = React.useState(false);
   const [selected, setSelected] = React.useState(blank);
 
@@ -51,8 +27,11 @@ const Purchase = () => {
   }
 
   const handleConfirm = () => {
-    console.log(selected);
-    handleClose();
+    axios.post(`${api}/credits/purchase?id=${selected._id}`).then(response => {
+      window.location.href = response.data.url;
+    }).catch(error => {
+      console.error(error);
+    });
   }
 
   return (

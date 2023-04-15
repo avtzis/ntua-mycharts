@@ -61,7 +61,7 @@ const Layout = () => {
     getUser().then(data => {
       setUser(data['user']);
     }).catch(error => {
-      console.log('not logged in', error);
+      console.log('not logged in');
     })
   }, []);
 
@@ -71,10 +71,11 @@ const Layout = () => {
   };
 
   const handleLogout = () => {
-    axios.post(`${api}/logout`).then(response => {
+    axios.post(`${api}/user/logout`).then(response => {
       console.log(response.data.message);
+      window.location.href = '/';
     }).catch(error => {
-      console.error(error.response.data.message);
+      console.error(error);
     })
   };
 

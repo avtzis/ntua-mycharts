@@ -2,6 +2,7 @@ import { Paper, Grid, Container, Divider, ListItem, ListItemText, Stack, Box } f
 import React from 'react'
 import MyTable from '../components/MyTable'
 import { useLoaderData } from 'react-router-dom'
+import dateDiff from '../utilities/dateDiff'
 
 const BlankPreview = () => {
   return (
@@ -27,20 +28,20 @@ const Dashboard = () => {
       <Container maxWidth='md' sx={{py: 2}}>
         <Stack direction='row' spacing={10} divider={<Divider orientation="vertical" flexItem />}>
           <ListItem>
-            <ListItemText primary='number of charts' secondary='15' />
+            <ListItemText primary='Number of charts' secondary={data.charts.length} />
           </ListItem>
           <ListItem>
-            <ListItemText primary='available credits' secondary='2' />
+            <ListItemText primary='Available credits' secondary={user.credits} />
           </ListItem>
           <ListItem>
-            <ListItemText primary='last login' secondary={user['lastLogin']} />
+            <ListItemText primary='Last login' secondary={dateDiff(user['lastLogin'])} />
           </ListItem>
         </Stack>
       </Container>
       <Container maxWidth='xl'>
         <Grid container spacing={3}>
           <Grid item md={6}>
-            <MyTable onChangePreview={handleChangePreview} />
+            <MyTable onChangePreview={handleChangePreview} charts={data.charts} />
           </Grid>
           <Grid item md={6}>
             <Paper variant='outlined' sx={{ width: '100%' }}>

@@ -5,7 +5,7 @@ import api from '../utilities/api'
 
 const LoginButton = () => {
   const handleSuccess = credentialResponse => {
-    axios.post(`${api}/login`, {
+    axios.post(`${api}/user/login`, {
       token: credentialResponse['credential']
     }).then(response => {
       console.log(response.data.message);
