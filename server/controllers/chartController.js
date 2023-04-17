@@ -7,7 +7,7 @@ const exportHtml = require("../utilities/exportHtml");
 exports.postValidate = async (req, res) => {
   const options = req.options;
 
-  //validate
+  //TODO: validate
   let error = undefined;
   if(error) {
     return res.status(400).json({message: 'invalid options', valid: false});
@@ -52,8 +52,19 @@ exports.postChart = async (req, res) => {
   })
 }
 
+const types = ['line', 'area', 'column', 'pie', 'dependencywheel', 'networkgraph', 'wordcloud', 'organization', 'polar'];
+
 exports.getTemplates = async (req, res) => {
-  //
+  const type = req.query.type;
+
+  if(!type || !types.find(element => element === type)) {
+    return res.status(400).json({message: 'no valid type specified'});
+  }
+
+  //TODO: get template from database
+  let file = 'empty,csv';
+
+  return res.status(200).send(file);
 }
 
 exports.getChart = async (req, res) => {
@@ -62,7 +73,7 @@ exports.getChart = async (req, res) => {
   const type = req.query.type;
 
   if(!type || type !== 'pdf' && type !== 'png' && type !== 'svg' && type !== 'html') {
-    return res.status(400).json({message: 'no type specified'});
+    return res.status(400).json({message: 'no valid type specified'});
   }
 
   const chart = await Chart.findOne({ _id: chartId, user: userId});
@@ -72,4 +83,13 @@ exports.getChart = async (req, res) => {
 
   const file = chart[type];
   return res.status(200).send(file);
+}
+
+exports.getPreviews = async (req, res) => {
+  const type = req.query.type;
+
+  const preview = await Chart.findOne({ type, preview: true }, 'options');
+  if(!preview) return res.status(400).json({message: 'no such type'});
+
+  return res.status(200).json({message: 'success', preview});
 }

@@ -1,6 +1,7 @@
 const app = require('./app');
 const mongoose = require('mongoose');
 const createTiers = require('./utilities/createTiers');
+const createPreviews = require('./utilities/createPreviews');
 
 // Connect to Database
 mongoose.connect('mongodb://127.0.0.1:27017/myCharts', {
@@ -8,6 +9,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/myCharts', {
 }).then(() => {
   console.log('Database Connected.');
   createTiers();
+  createPreviews();
 }).catch(error => {
   console.error(error);
 });

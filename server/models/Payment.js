@@ -14,6 +14,8 @@ const paymentSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User'
   }
+}, {
+  timestamps: true
 });
 
 module.exports = Payment = mongoose.model('payment', paymentSchema);

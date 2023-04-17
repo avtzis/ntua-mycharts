@@ -16,7 +16,8 @@ router.post('/create', auth, chartController.postChart);
 
 router.get('/download/:id', auth, chartController.getChart);
 
-router.get('/template', chartController.getTemplates);
+router.get('/template', auth, chartController.getTemplates);
+router.get('/preview', auth, chartController.getPreviews);
 
 // Export Router
 module.exports = router;

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const findOrCreate = require('mongoose-findorcreate')
 
 const chartSchema = new mongoose.Schema({
   user: {
@@ -12,7 +13,12 @@ const chartSchema = new mongoose.Schema({
   pdf: Buffer,
   png: Buffer,
   svg: Buffer,
-  html: String
+  html: String,
+  preview: {
+    type: Boolean,
+    default: false
+  }
 });
 
+chartSchema.plugin(findOrCreate);
 module.exports = Chart = mongoose.model('chart', chartSchema);

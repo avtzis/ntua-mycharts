@@ -1,0 +1,108 @@
+{
+  "chart":{
+    "type":"networkgraph",
+    "height":"100%"
+  },
+  "title":{
+    "text":"The Indo-European Language Tree",
+    "align":"left"
+  },
+  "subtitle":{
+    "text":"A Force-Directed Network Graph in Highcharts",
+    "align":"left"
+  },
+  "plotOptions":{
+    "networkgraph":{
+      "keys":[
+        "from",
+        "to"
+      ],
+      "layoutAlgorithm":{
+        "enableSimulation":true,
+        "friction":-0.9
+      }
+    }
+  },
+  "series":[
+    {
+      "accessibility":{
+        "enabled":false
+      },
+      "dataLabels":{
+        "enabled":true,
+        "linkFormat":""
+      },
+      "id":"lang-tree",
+      "data":[
+        [
+          "Proto Indo-European",
+          "Balto-Slavic"
+        ],
+        [
+          "Proto Indo-European",
+          "Germanic"
+        ],
+        [
+          "Proto Indo-European",
+          "Celtic"
+        ],
+        [
+          "Proto Indo-European",
+          "Italic"
+        ],
+        [
+          "Proto Indo-European",
+          "Hellenic"
+        ],
+        [
+          "Proto Indo-European",
+          "Anatolian"
+        ],
+        [
+          "Proto Indo-European",
+          "Indo-Iranian"
+        ],
+        [
+          "Proto Indo-European",
+          "Tocharian"
+        ],
+        [
+          "Indo-Iranian",
+          "Dardic"
+        ],
+        [
+          "Indo-Iranian",
+          "Indic"
+        ],
+        [
+          "Indo-Iranian",
+          "Iranian"
+        ],
+        [
+          "Iranian",
+          "Old Persian"
+        ],
+        [
+          "Old Persian",
+          "Middle Persian"
+        ],
+        [
+          "Indic",
+          "Sanskrit"
+        ],
+        [
+          "Italic",
+          "Osco-Umbrian"
+        ],
+        [
+          "Italic",
+          "Latino-Faliscan"
+        ],
+        [
+          "Latino-Faliscan",
+          "Latin"
+        ]
+      ]
+    }
+  ]
+}
