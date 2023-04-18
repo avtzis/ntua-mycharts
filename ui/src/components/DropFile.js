@@ -15,7 +15,7 @@ import highcharts from 'highcharts';
 let message = '';
 let severity = 'error';
 
-const DropFile = () => {
+const DropFile = ({ onChangeMode }) => {
   const [uploaded, setUploaded] = React.useState(false);
   const [filename, setFilename] = React.useState('');
   const [progress, setProgress] = React.useState(0);
@@ -82,7 +82,8 @@ const DropFile = () => {
         setOpenAlert(true);
         setPreview(
           <HighchartsReact highcharts={highcharts} options={{...myOptions, chart:{...myOptions.chart, height: 500, width: 800}}} />
-        )
+        );
+        onChangeMode(true);
       }).catch(err => {
         console.error(err);
         message = err.response.data.message
@@ -94,6 +95,7 @@ const DropFile = () => {
 
   const handleDiscard = () => {
     setPreview(null);
+    onChangeMode(false);
     setOptions(null);
   };
 
