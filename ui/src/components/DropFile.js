@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Paper, Box, Typography, LinearProgress, IconButton, Button } from '@mui/material'
+import { Container, Paper, Box, Typography, LinearProgress, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { Backdrop, CircularProgress } from '@mui/material'
 import csvIcon from '../icons/csv-file-icon.svg'
 import ClearIcon from '@mui/icons-material/Clear';
@@ -19,23 +19,19 @@ const DropFile = ({ onChangeMode }) => {
   const [uploaded, setUploaded] = React.useState(false);
   const [filename, setFilename] = React.useState('');
   const [progress, setProgress] = React.useState(0);
-  const [load, setLoad] = React.useState(false);
   const [file, setFile] = React.useState({});
   const [openAlert, setOpenAlert] = React.useState(false);
   const [openBackdrop, setOpenBackdrop] = React.useState(false);
   const [preview, setPreview] = React.useState(null);
   const [options, setOptions] = React.useState(null);
+  const [openDialog, setOpenDialog] = React.useState(false);
 
   const [{isOver}, drop] = useDrop({
     accept: [NativeTypes.FILE],
     drop(item) {
       const file = item.files[0];
       if(file.type === 'text/csv') {
-        setFile(file);
-        setFilename(file['name']);
-        setUploaded(true);
-        setProgress(0);
-        setLoad(true);
+        handleFile(file);
       } else {
         message = 'Wrong file type. Please drop a csv file.';
         severity = 'error';
@@ -47,22 +43,33 @@ const DropFile = ({ onChangeMode }) => {
     }
   });
 
-  const handleFileUpload = event => {
-    if(!event.target.files) return;
+  const triggerAlert = (msg, sev) => {
+    message = msg;
+    severity = sev;
+    setOpenAlert(true);
+  }
 
-    const file = event.target.files[0];
+  const handleFile = file => {
     setFile(file);
     setFilename(file['name']);
     setUploaded(true);
     setProgress(0);
-    setLoad(true);
+    setTimeout(() => {
+      setProgress(100);
+    }, 300);
+  }
+
+  const handleFileUpload = event => {
+    if(!event.target.files) return;
+
+    const file = event.target.files[0];
+    handleFile(file);
   };
 
   const handleAbort = () => {
     setFile(null);
     setFilename('');
     setUploaded(false);
-    setLoad(false);
   };
 
   const handlePreview = () => {
@@ -77,18 +84,14 @@ const DropFile = ({ onChangeMode }) => {
         console.log(response.data);
         const myOptions = response.data.options;
         setOptions(myOptions);
-        message = response.data.message;
-        severity = 'success';
-        setOpenAlert(true);
+        triggerAlert(response.data.message, 'success');
         setPreview(
           <HighchartsReact highcharts={highcharts} options={{...myOptions, chart:{...myOptions.chart, height: 500, width: 800}}} />
         );
         onChangeMode(true);
       }).catch(err => {
         console.error(err);
-        message = err.response.data.message
-        severity = 'error';
-        setOpenAlert(true);
+        triggerAlert(err.response.data.message);
       })
     }
   };
@@ -97,42 +100,29 @@ const DropFile = ({ onChangeMode }) => {
     setPreview(null);
     onChangeMode(false);
     setOptions(null);
+    triggerAlert('Chart discarded', 'info');
   };
 
   const handleCreate = () => {
+    setOpenDialog(true);
+  }
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  }
+
+  const handleConfirm = () => {
     setOpenBackdrop(true);
     axios.post(`${api}/chart/create`, {
       options,
     }).then(response => {
-      message = response.data.message;
-      severity = 'success';
-      setOpenAlert(true);
+      triggerAlert(response.data.message, 'success');
       window.location.href = '/dashboard';
     }).catch(error => {
       console.error(error);
-      message = error.response.data.message;
-      severity = 'error';
-      setOpenAlert(true);
+      triggerAlert(error.response.data.message);
     })
   }
-
-  React.useEffect(() => {
-    if(load) {
-      const timer = setInterval(() => {
-        setProgress((oldProgress) => {
-          if(oldProgress === 100) {
-            setLoad(false);
-          }
-          const diff = Math.random() * 40;
-          return Math.min(oldProgress + diff, 100);
-        });
-      }, 500);
-  
-      return () => {
-        clearInterval(timer);
-      };
-    }
-  }, [load]);
 
   return (
     <React.Fragment>
@@ -191,7 +181,7 @@ const DropFile = ({ onChangeMode }) => {
             <Button variant='outlined' href='/dashboard'>
               Back
             </Button>
-            <Button variant='contained' onClick={handlePreview} disabled={load || (progress !== 100) || !file}>
+            <Button variant='contained' onClick={handlePreview} disabled={(progress !== 100) || !file}>
               Preview
             </Button>
           </Container>
@@ -215,6 +205,20 @@ const DropFile = ({ onChangeMode }) => {
           </Container>
         </React.Fragment>
       }
+      <Dialog open={openDialog} onClose={handleClose} aria-labelledby='confirm-title' aria-describedby='confirm-description'>
+        <DialogTitle id='confirm-title'>
+          Please confirm your transaction
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {`Are you sure you want to create this chart? You will be charged 1 credit from your available credits. The transaction will not be completed if you have no available credits.`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Go Back</Button>
+          <Button onClick={handleConfirm}>COnfirm</Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   )
 }
