@@ -29,8 +29,10 @@ module.exports = async token => {
 
   let user = await User.findOne({ googleId });
   if(!user) {
-    user = new User({ googleId, email, name, avatar, lastLogin: new Date() });
+    user = new User({ googleId, email, name, avatar, currentLogin: new Date() });
   }
+  user.lastLogin = user.currentLogin;
+  user.currentLogin = new Date();
   await user.save();
 
   return user;

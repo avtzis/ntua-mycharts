@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   avatar: String,
+  currentLogin: Date,
   lastLogin: Date,
 });
 

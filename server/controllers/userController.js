@@ -26,12 +26,6 @@ exports.postLogin = async (req, res) => {
 };
 
 exports.postLogout = async (req, res) => {
-  const _id = req.userId;
-  
-  const user = await User.findOne({ _id });
-  user.lastLogin = new Date();
-  await user.save();
-
   res.clearCookie('access_token');
   return res.status(200).json({message: 'logout successful'});
 }
