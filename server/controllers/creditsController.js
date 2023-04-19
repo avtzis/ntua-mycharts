@@ -44,7 +44,7 @@ exports.getSuccess = async (req, res) => {
   const sessionId = req.query.sessionId;
 
   stripe.checkout.sessions.retrieve(sessionId).then(response => {
-    if(response.payment_status === 'paid' && response.status === 'complete') {
+    if(response && response.payment_status === 'paid' && response.status === 'complete') {
       Payment.findOne({ sessionId, paid: false }).then(async payment => {
         if(!payment) throw {message: 'invalid payment'};
         payment.paid = true;
