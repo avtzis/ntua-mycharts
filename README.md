@@ -1,1 +1,3 @@
-# Johny Lo, the Albanian Demon 😈
+# NTUA ECE SAAS 2023 PROJECT
+  
+## TEAM 01
