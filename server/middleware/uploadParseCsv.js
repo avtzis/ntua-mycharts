@@ -1,37 +1,75 @@
-const busboy = require('busboy');
-const csv = require('fast-csv');
+const {parse} = require("csv-parse/sync");
 
-module.exports = async (req, res, next) => {
-  let bb;
-  try {
-    bb = busboy({headers: req.headers});
-  } catch(err) {
-    return res.status(400).json({message: 'invalid file', error: err});
-  }
+const transpose = arr => {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < i; j++) {
+            const tmp = arr[i][j];
+            arr[i][j] = arr[j][i];
+            arr[j][i] = tmp;
+        }
+    }
+}
 
-  bb.on('file', (name, file, info) => {
-    if(info['mimeType'] != 'text/csv') {
-      return res.status(400).json({message: 'invalid file type'});
+module.exports = async (req,res,next) =>{
+    const csvStr = req.file.buffer.toString();
+
+
+    const rawData = parse(csvStr, {
+        skip_empty_lines: true
+    });
+
+    let options = {};
+    const [attributes,values] = [rawData[1],rawData[2]];
+
+    //make an object according to the attributes
+    for(let i in attributes){
+        const attribute = attributes[i];
+
+        if(attribute === '') continue;
+
+        const value = values[i];
+        let atts = attribute.split(".");
+
+        let objRef = options;
+
+        for(let [i,attName] of atts.entries()){
+            if(!(attName in objRef)) objRef[attName] = {};
+
+            if(atts.length - 1 === i){
+                objRef[attName] = value;
+            }else {
+                objRef = objRef[attName];
+            }
+        }
     }
 
-    let options = [];
-    file.pipe(csv.parse({headers: true})).on('data', row => {
-      options.push(row);
-    }).on('end', () => {
-      req.options = options;
-      next();
-    }).on('error', error => {
-      console.error(error);
-      res.status(400).json({message: 'invalid file'});
-    });
-  });
+    let series = rawData.slice(3);
 
-  bb.on('close', () => {}); //?
 
-  bb.on('error', error => {
-    console.error(error);
-    res.status(500).json({message: 'internal server error'});
-  });
+    transpose(series)
 
-  req.pipe(bb);
+    let resSeries =[];
+    for(let line of series){
+
+        const check = line.find(el=>(el!== undefined && el !== "")) !== undefined;
+        if(!check) continue;
+
+        let data = {}
+        data.name = line[0];
+
+        data.data = line.slice(1).map(num=>{
+            if(num === undefined) {
+                return null;
+            }
+
+            return Number(num);
+        });
+        resSeries.push(data);
+    }
+    options.series = resSeries;
+
+
+
+    req.options = options;
+    next()
 }
