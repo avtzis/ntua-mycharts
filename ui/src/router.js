@@ -7,6 +7,17 @@ import Error from './routes/Error';
 import Landing from './routes/Landing';
 import About from './routes/About';
 import Dashboard from './routes/Dashboard';
+import Create from './routes/Create';
+import Purchase from './routes/Purchase';
+import ThankYou from './routes/ThankYou';
+
+// Loaders
+import getUser from './utilities/getUser';
+import getTiers from './utilities/getTiers'
+
+// Import and Configure Axios
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const router = createBrowserRouter([{
   path: '/',
@@ -23,8 +34,22 @@ const router = createBrowserRouter([{
     },
     {
       path: '/dashboard',
-      element: <Dashboard />
+      element: <Dashboard />,
+      loader: getUser,
     },
+    {
+      path: '/create',
+      element: <Create />
+    },
+    {
+      path: '/purchase',
+      element: <Purchase />,
+      loader: getTiers
+    },
+    {
+      path: '/purchase/thankyou',
+      element: <ThankYou />
+    }
   ]
 }]);
 

@@ -1,54 +1,52 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import { Box, Collapse, IconButton, Button } from '@mui/material';
+import { Box, Collapse, IconButton, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import axios from 'axios';
+import api from '../utilities/api';
+import fileDownload from 'js-file-download';
 
-const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-  {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-];
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+const dateFormat = date => {
+  date = new Date(date);
+  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
 }
 
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
+const BlankPreview = () => {
+  return (
+    <Box sx={{height: 492, display: 'flex', alignItems: 'center', justifyContent: 'center'}} />
+  )
+}
+
+const columns = [
+  { id: 'type', label: 'Type', minWidth: 50 },
+  { id: 'name', label: 'Chart Name', minWidth: 100 },
+  { id: 'createdOn', label: 'Created on', minWidth: 100, format: dateFormat },
 ];
 
 const Row = props => {
-  const { row } = props;
+  const { row, onChangePreview } = props;
   const [open, setOpen] = React.useState(false);
+
+  const handlePreview = options => {
+    onChangePreview(BlankPreview);
+    setTimeout(() => {
+      onChangePreview(
+        <HighchartsReact highcharts={highcharts} options={{...options, chart:{...options.chart, height: 492, width: 730}}} />
+      )
+    }, 10);
+  }
+
+  const handleDownload = type => {
+    axios.get(`${api}/chart/download/${row._id}?type=${type}`, {
+      responseType: 'blob'
+    }).then(response => {
+      fileDownload(response.data, `chart-${row._id}.${type}`);
+    }).catch(error => {
+      console.error(error);
+    });
+  };
 
   return (
     <React.Fragment>
@@ -62,15 +60,16 @@ const Row = props => {
           const value = row[column.id];
           return (
             <TableCell key={column.id} align={column.align}>
-              {column.format && typeof value === 'number'
-                ? column.format(value)
-                : value}
+              {column.format ? column.format(value) : value}
             </TableCell>
           );
         })}
+        <TableCell>
+          <Button onClick={() => handlePreview(row.options)}>Preview</Button>
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{m: 1}}>
               <Table size='small'>
@@ -84,10 +83,10 @@ const Row = props => {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
-                    <TableCell>{<Button variant='contained'>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small' onClick={() => handleDownload('pdf')}>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small' onClick={() => handleDownload('png')}>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small' onClick={() => handleDownload('svg')}>Download</Button>}</TableCell>
+                    <TableCell>{<Button variant='contained' size='small' onClick={() => handleDownload('html')}>Download</Button>}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -99,7 +98,8 @@ const Row = props => {
   )
 }
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable(props) {
+  const { onChangePreview, charts } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -114,7 +114,7 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ height: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -128,14 +128,15 @@ export default function StickyHeadTable() {
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {charts
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <Row row={row} key={row.code}/>
+                  <Row row={row} key={row.createdOn} onChangePreview={onChangePreview} />
                 );
               })}
           </TableBody>
@@ -144,7 +145,7 @@ export default function StickyHeadTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={charts.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

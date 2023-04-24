@@ -1,0 +1,32 @@
+[
+  {
+    "title":"Bronze",
+    "price":9.99,
+    "credits":15,
+    "color":"peru",
+    "active":true
+  },
+  {
+    "title":"Silver",
+    "price":24.99,
+    "credits":50,
+    "color":"silver",
+    "active":true
+  },
+  {
+    "title":"Gold",
+    "subheader":"Most Popular",
+    "price":49.99,
+    "credits":150,
+    "color":"goldenrod",
+    "active":true
+  },
+  {
+    "title":"Platinum",
+    "subheader":"Ultra Premium",
+    "price":99.99,
+    "credits":400,
+    "color":"turquoise",
+    "active":true
+  }
+]
