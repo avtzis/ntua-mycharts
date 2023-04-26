@@ -20,6 +20,20 @@ import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import SearchIcon from '@mui/icons-material/Search';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import LogoutIcon from '@mui/icons-material/Logout';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
+import SsidChartOutlinedIcon from '@mui/icons-material/SsidChartOutlined';
+import LandscapeOutlinedIcon from '@mui/icons-material/LandscapeOutlined';
+import EqualizerOutlinedIcon from '@mui/icons-material/EqualizerOutlined';
+import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutlined';
+import BubbleChartOutlinedIcon from '@mui/icons-material/BubbleChartOutlined';
+import SchemaOutlinedIcon from '@mui/icons-material/SchemaOutlined';
+import MultilineChartOutlinedIcon from '@mui/icons-material/MultilineChartOutlined';
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 
 // Utilities
 import { useCookies } from 'react-cookie';
@@ -28,6 +42,51 @@ import api from '../utilities/api';
 import { alpha } from '@mui/material/styles'
 import getUser from '../utilities/getUser';
 
+const barItems = [
+  {
+    name: 'Dashboard',
+    link: '/dashboard',
+    logged: true,
+    icon: <DashboardOutlinedIcon />
+  },
+  {
+    name: 'Create',
+    link: '/create',
+    logged: true,
+    icon: <AddOutlinedIcon />
+  },
+  {
+    name: 'Purchase Credits',
+    link: '/purchase',
+    logged: true,
+    icon: <ShoppingCartOutlinedIcon />
+  },
+  {
+    name: 'Previews',
+    link: '/previews',
+    logged: false,
+    icon: <QueryStatsOutlinedIcon />
+  },
+  {
+    name: 'About Us',
+    link: '/about',
+    logged: false,
+    icon: <InfoOutlinedIcon />
+  },
+]
+
+const chartTypes = [
+  {id: 'line', name: 'Line', icon: <SsidChartOutlinedIcon />},
+  {id: 'area', name: 'Area', icon: <LandscapeOutlinedIcon />},
+  {id: 'column', name: 'Column', icon: <EqualizerOutlinedIcon />},
+  {id: 'pie', name: 'Pie', icon: <PieChartOutlineOutlinedIcon />},
+  {id: 'dependencywheel', name: 'Dependency-Wheel', icon: <DonutLargeOutlinedIcon />},
+  {id: 'networkgraph', name: 'Network-Graph', icon: <AccountTreeOutlinedIcon />},
+  {id: 'wordcloud', name: 'Word-Cloud', icon: <BubbleChartOutlinedIcon />},
+  {id: 'organization', name: 'Organization', icon: <SchemaOutlinedIcon />},
+  {id: 'polar', name: 'Polar-Radar', icon: <MultilineChartOutlinedIcon />},
+]
+
 const Layout = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [cookies, setCookie] = useCookies(['dark']); 
@@ -35,7 +94,7 @@ const Layout = () => {
   const [theme, setTheme] = React.useState(mainTheme);
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [user, setUser] = React.useState({});
+  const [user, setUser] = React.useState(null);
 
   const openMenu = Boolean(anchorEl);
 
@@ -104,22 +163,28 @@ const Layout = () => {
             </Box>
             <Box sx={{px: 3, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
               <Box>
-                <Button href='/dashboard' color='inherit'>Dashboard</Button>
-                <Button href='/create' color='inherit'>Create</Button>
-                <Button href='/purchase' color='inherit'>Purchase Credits</Button>
+                {barItems.filter(item => item.logged !== (user === null)).map(item => (
+                    <Button key={item.name} href={item.link} color='inherit'>{item.name}</Button>
+                  ))
+                }
               </Box>
-              <Box sx={{mr: 55, backgroundColor: alpha(theme.palette.common.white, 0.15), '&:hover': {backgroundColor: alpha(theme.palette.common.white, 0.25)}, p: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: 400, borderRadius: 15}}>
+              {/* <Box sx={{mr: 55, backgroundColor: alpha(theme.palette.common.white, 0.15), '&:hover': {backgroundColor: alpha(theme.palette.common.white, 0.25)}, p: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: 400, borderRadius: 15}}>
                 <SearchIcon />
                 <InputBase placeholder='Search...' sx={{color: 'inherit', pl: 1, transition: theme.transitions.create('width'), width: 'auto'}} />
-              </Box>
+              </Box> */}
               <Box>
                 <Switch checked={darkMode} onChange={handleChange} />
-                <IconButton onClick={handleClick} aria-controls={openMenu ? 'account-menu' : undefined} aria-haspopup='true' aria-expanded={openMenu ? 'true' : undefined}>
-                  <Avatar src={user.avatar} />
-                </IconButton>
+                {user &&
+                  <IconButton onClick={handleClick} aria-controls={openMenu ? 'account-menu' : undefined} aria-haspopup='true' aria-expanded={openMenu ? 'true' : undefined}>
+                    <Avatar src={user.avatar} />
+                  </IconButton>
+                }
                 <Menu id='account-menu' anchorEl={anchorEl} open={openMenu} onClose={handleClose} onClick={handleClose}>
-                  <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
+                  <MenuItem onClick={() => window.location.href = '/dashboard'}>
+                    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                      <Avatar src={user && user.avatar} />
+                      <Typography sx={{px: 1}}>Profile</Typography>
+                    </Box>
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleLogout}>
@@ -136,31 +201,31 @@ const Layout = () => {
           <Toolbar sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end', px: [1]}} />
           <Divider />
           <List>
-            {[1, 2, 3].map(number => (
-              <ListItem key={number} disablePadding>
-                <ListItemButton>
+            {barItems.filter(item => item.logged !== (user === null)).map(item => (
+              <ListItem key={item.name} disablePadding>
+                <ListItemButton href={item.link}>
                   <ListItemIcon sx={{color: 'inherit'}}>
-                    <AutoGraphIcon />
+                    {item.icon}
                   </ListItemIcon>
-                  <ListItemText primary={`Item ${number}`} sx={{color: 'inherit'}} />
+                  <ListItemText primary={item.name} sx={{color: 'inherit'}} />
                 </ListItemButton>
               </ListItem>
             ))}
             <Divider />
-            {[1, 2, 3, 4, 5].map(number => (
-              <ListItem key={number} disablePadding>
-                <ListItemButton>
+            {chartTypes.map(type => (
+              <ListItem key={type.id} disablePadding>
+                <ListItemButton href={`/preview/${type.id}`}>
                   <ListItemIcon sx={{color: 'inherit'}}>
-                    <AutoGraphIcon />
+                    {type.icon}
                   </ListItemIcon>
-                  <ListItemText primary={`Chart ${number}`} sx={{color: 'inherit'}} />
+                  <ListItemText primary={`${type.name} ${type.id === 'dependencywheel' ? '' : 'Chart'}`} sx={{color: 'inherit'}} />
                 </ListItemButton>
               </ListItem>
             ))}
           </List>
         </Drawer>
         <Box component='main' sx={{flexGrow: 1, overflow: 'auto', pt: 10}}>
-          <Outlet />
+          <Outlet context={user !== null} />
           <footer>
             <Copyright />
           </footer>
