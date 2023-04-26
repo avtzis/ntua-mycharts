@@ -31,7 +31,7 @@ const types = [
   {id: 'polar', name: 'Polar-Radar'},
 ]
 
-const ChartPreview = () => {
+const ChartPreview = ({ noCsv }) => {
   const [type, setType] = React.useState(types[0]);
   const [options, setOptions] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -79,10 +79,10 @@ const ChartPreview = () => {
           </Box>
         </Paper>
       </Container>
-      <Typography variant='h6' align='center'>
+      {noCsv || <Typography variant='h6' align='center'>
         <Link href='#' onClick={handleDownload}>Download</Link>
         {` chart description template for ${type.name} Chart`}
-      </Typography>
+      </Typography>}
     </React.Fragment>
   )
 }
