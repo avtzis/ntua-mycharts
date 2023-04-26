@@ -118,7 +118,7 @@ const DropFile = ({ onChangeMode }) => {
       triggerAlert(response.data.message, 'success');
       window.location.href = '/dashboard';
     }).catch(error => {
-      triggerAlert(error.response.data.message, 'error');
+      triggerAlert(error.response.data.message ?? 'Server blew up', 'error');
       setOpenBackdrop(false);
       console.error(error);
     })
