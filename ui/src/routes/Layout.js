@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 // Material UI Components
-import { AppBar, CssBaseline, Switch, ThemeProvider, Toolbar, useMediaQuery, Button, Box, IconButton, Typography, InputBase, Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Menu, MenuItem } from '@mui/material'
+import { AppBar, CssBaseline, ThemeProvider, Toolbar, useMediaQuery, Button, Box, IconButton, Typography, InputBase, Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Menu, MenuItem } from '@mui/material'
 
 // Custom Components
 import Copyright from '../components/Copyright';
@@ -41,6 +41,7 @@ import axios from 'axios';
 import api from '../utilities/api';
 import { alpha } from '@mui/material/styles'
 import getUser from '../utilities/getUser';
+import ThemeSwitch from '../components/ThemeSwitch';
 
 const barItems = [
   {
@@ -173,7 +174,7 @@ const Layout = () => {
                 <InputBase placeholder='Search...' sx={{color: 'inherit', pl: 1, transition: theme.transitions.create('width'), width: 'auto'}} />
               </Box> */}
               <Box>
-                <Switch checked={darkMode} onChange={handleChange} />
+                <ThemeSwitch checked={darkMode} onChange={handleChange} />
                 {user &&
                   <IconButton onClick={handleClick} aria-controls={openMenu ? 'account-menu' : undefined} aria-haspopup='true' aria-expanded={openMenu ? 'true' : undefined}>
                     <Avatar src={user.avatar} />
