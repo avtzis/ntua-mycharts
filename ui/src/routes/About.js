@@ -1,5 +1,6 @@
-import { Container, Paper, Typography } from '@mui/material'
+import { Box, Container, IconButton, Paper, Typography } from '@mui/material'
 import React from 'react'
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const About = () => {
   return (
@@ -11,7 +12,7 @@ const About = () => {
         <Typography variant='h4'>What we are</Typography>
         <Paper variant='outlined' sx={{p: 1}}>
           <Typography variant='body'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin lectus sagittis erat egestas congue. In efficitur vehicula feugiat. Ut ac euismod turpis, vehicula semper leo. Sed non rhoncus metus, et dignissim massa. Sed id placerat erat. Donec sit amet orci sagittis, suscipit ligula in, accumsan velit. Vivamus at suscipit mi. Donec mattis finibus diam, id condimentum nibh laoreet at. Vivamus vitae cursus neque. Mauris et cursus diam. Nam lobortis tortor vulputate nisi feugiat egestas. 
+          At our core, we are a platform that empowers users to easily create and purchase professional-grade charts for any purpose. Whether you're an analyst, marketer, or simply want to present data in a visually appealing way, our platform offers a range of customizable options to suit your needs. We believe that data visualization should be accessible to everyone, which is why we strive to make our platform easy to use, affordable, and user-friendly.
           </Typography>
         </Paper>
       </Container>
@@ -19,7 +20,7 @@ const About = () => {
         <Typography variant='h4'>Pricing</Typography>
         <Paper variant='outlined' sx={{p: 1}}>
           <Typography variant='body'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin lectus sagittis erat egestas congue. In efficitur vehicula feugiat. Ut ac euismod turpis, vehicula semper leo. Sed non rhoncus metus, et dignissim massa. Sed id placerat erat. Donec sit amet orci sagittis, suscipit ligula in, accumsan velit. Vivamus at suscipit mi. Donec mattis finibus diam, id condimentum nibh laoreet at. Vivamus vitae cursus neque. Mauris et cursus diam. Nam lobortis tortor vulputate nisi feugiat egestas. 
+          We understand that affordability is a key consideration for many of our users, which is why we offer flexible pricing options to suit a range of budgets. Our basic plan offers a range of essential features for those on a tighter budget, while our premium plans offer more advanced features such as custom branding, unlimited chart creation, and more. Whether you're an individual or a large organization, we have a pricing plan that will suit your needs.
           </Typography>
         </Paper>
       </Container>
@@ -27,17 +28,16 @@ const About = () => {
         <Typography variant='h4'>For Developers</Typography>
         <Paper variant='outlined' sx={{p: 1}}>
           <Typography variant='body'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin lectus sagittis erat egestas congue. In efficitur vehicula feugiat. Ut ac euismod turpis, vehicula semper leo. Sed non rhoncus metus, et dignissim massa. Sed id placerat erat. Donec sit amet orci sagittis, suscipit ligula in, accumsan velit. Vivamus at suscipit mi. Donec mattis finibus diam, id condimentum nibh laoreet at. Vivamus vitae cursus neque. Mauris et cursus diam. Nam lobortis tortor vulputate nisi feugiat egestas. 
+          For developers, our platform offers a range of APIs and integrations to help you seamlessly integrate our charts into your applications. Our APIs offer full programmatic control over chart creation, while our integrations with popular platforms such as WordPress and Shopify make it easy to embed charts directly into your website. Additionally, our platform offers a range of customizable options, including styling, data source integration, and more, allowing developers to create charts that seamlessly fit into their applications.
           </Typography>
         </Paper>
       </Container>
-      <Container sx={{p: 2}}>
-        <Typography variant='h4'>What we are</Typography>
-        <Paper variant='outlined' sx={{p: 1}}>
-          <Typography variant='body'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin lectus sagittis erat egestas congue. In efficitur vehicula feugiat. Ut ac euismod turpis, vehicula semper leo. Sed non rhoncus metus, et dignissim massa. Sed id placerat erat. Donec sit amet orci sagittis, suscipit ligula in, accumsan velit. Vivamus at suscipit mi. Donec mattis finibus diam, id condimentum nibh laoreet at. Vivamus vitae cursus neque. Mauris et cursus diam. Nam lobortis tortor vulputate nisi feugiat egestas. 
-          </Typography>
-        </Paper>
+      <Container sx={{pt: 3}}>
+        <Box sx={{display: 'flex', justifyContent: 'center'}}>
+          <IconButton href='https://github.com/ntua/SaaS23-01'>
+            <GitHubIcon />
+          </IconButton>
+        </Box>
       </Container>
     </React.Fragment>
   )

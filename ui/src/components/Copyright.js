@@ -3,7 +3,7 @@ import React from 'react'
 
 const Copyright = () => {
   return (
-    <Typography variant='body2' color='text.secondary' align='center' sx={{mt: 8, mb: 4}}>
+    <Typography variant='body2' color='text.secondary' align='center' sx={{mt: 4, mb: 4}}>
       {'Copyright © '}
       <Link color='inherit' href='/about'>
         myCharts

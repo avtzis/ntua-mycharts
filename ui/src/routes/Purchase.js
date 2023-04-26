@@ -48,7 +48,7 @@ const Purchase = () => {
           Purchace Credits
         </Typography>
         <Typography variant='h5' align='center' color='text.secondary'>
-          Minim mollit laborum cillum proident. Velit laboris eu dolor fugiat aliqua aute voluptate cupidatat minim ad magna. Aute magna proident ipsum culpa tempor occaecat irure magna anim magna. 
+        To access our platform's advanced features, users can purchase credits, which can be used to create professional-grade charts with custom branding, data integration, and more.
         </Typography>
       </Container>
       <Container component='main' maxWidth='md'>
