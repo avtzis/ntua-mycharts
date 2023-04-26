@@ -33,9 +33,7 @@ const DropFile = ({ onChangeMode }) => {
       if(file.type === 'text/csv') {
         handleFile(file);
       } else {
-        message = 'Wrong file type. Please drop a csv file.';
-        severity = 'error';
-        setOpenAlert(true);
+        triggerAlert('Wrong file type. Please drop a csv file.', 'error');
       }
     },
     collect: monitor => {
@@ -112,6 +110,7 @@ const DropFile = ({ onChangeMode }) => {
   }
 
   const handleConfirm = () => {
+    handleClose();
     setOpenBackdrop(true);
     axios.post(`${api}/chart/create`, {
       options,
@@ -119,8 +118,9 @@ const DropFile = ({ onChangeMode }) => {
       triggerAlert(response.data.message, 'success');
       window.location.href = '/dashboard';
     }).catch(error => {
+      triggerAlert(error.response.data.message, 'error');
+      setOpenBackdrop(false);
       console.error(error);
-      triggerAlert(error.response.data.message);
     })
   }
 

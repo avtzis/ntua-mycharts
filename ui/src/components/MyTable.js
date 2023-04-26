@@ -7,6 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
 import api from '../utilities/api';
 import fileDownload from 'js-file-download';
+import MyAlert from './MyAlert';
 
 const dateFormat = date => {
   date = new Date(date);
@@ -25,9 +26,13 @@ const columns = [
   { id: 'createdOn', label: 'Created on', minWidth: 100, format: dateFormat },
 ];
 
+let message = 'There has been an error';
+let severity = 'error';
+
 const Row = props => {
   const { row, onChangePreview } = props;
   const [open, setOpen] = React.useState(false);
+  const [openAlert, setOpenAlert] = React.useState(false);
 
   const handlePreview = options => {
     onChangePreview(BlankPreview);
@@ -44,12 +49,14 @@ const Row = props => {
     }).then(response => {
       fileDownload(response.data, `chart-${row._id}.${type}`);
     }).catch(error => {
+      setOpenAlert(true);
       console.error(error);
     });
   };
 
   return (
     <React.Fragment>
+      <MyAlert open={openAlert} severity={severity} message={message} handleClose={() => setOpenAlert(false)} />
       <TableRow hover role="checkbox" tabIndex={-1}>
         <TableCell>
           <IconButton size='small' onClick={() => setOpen(!open)}>

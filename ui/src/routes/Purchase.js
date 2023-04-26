@@ -3,11 +3,15 @@ import axios from 'axios'
 import React from 'react'
 import { useLoaderData } from 'react-router-dom'
 import api from '../utilities/api'
+import MyAlert from '../components/MyAlert'
 
 const blank = {
   title: undefined,
   price: undefined
 }
+
+let message = 'There has been an error';
+let severity = 'error';
 
 const Purchase = () => {
   const data = useLoaderData();
@@ -15,6 +19,7 @@ const Purchase = () => {
   tiers.sort((a, b) => a.price > b.price);
 
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [openAlert, setOpenAlert] = React.useState(false);
   const [selected, setSelected] = React.useState(blank);
 
   const handleBuy = tier => {
@@ -30,12 +35,14 @@ const Purchase = () => {
     axios.post(`${api}/credits/purchase?id=${selected._id}`).then(response => {
       window.location.href = response.data.url;
     }).catch(error => {
+      setOpenAlert(true);
       console.error(error);
     });
   }
 
   return (
     <React.Fragment>
+      <MyAlert open={openAlert} message={message} severity={severity} handleClose={() => setOpenAlert(false)} />
       <Container component='main' maxWidth='sm' sx={{pt: 8, pb: 6}}>
         <Typography variant='h2' align='center' color='text.primary'>
           Purchace Credits
@@ -48,7 +55,7 @@ const Purchase = () => {
         <Grid container spacing={5} alignItems='flex-end'>
           {tiers.map(tier => (
             <Grid item md={3} key={tier.title}>
-              <Card>
+              <Card raised>
                 <CardHeader title={tier.title} subheader={tier.subheader} titleTypographyProps={{align: 'center'}} subheaderTypographyProps={{align: 'center'}} sx={{backgroundColor: tier.color}} />
                 <CardContent>
                   <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'baseline', mb: 2}}>
