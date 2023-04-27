@@ -3,7 +3,7 @@
   "scripts": {
     "start": "OPENSSL_CONF=/etc/ssl node server.js",
     "dev": "OPENSSL_CONF=/etc/ssl nodemon",
-    "installer": "ACCEPT_HIGHCHARTS_LICENSE=fuckyou HIGHCHARTS_VERSION=4.2.2 npm i --loglevel verbose"
+    "installer": "ACCEPT_HIGHCHARTS_LICENSE=fuckyou HIGHCHARTS_VERSION=10.3.3 npm i --loglevel verbose"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
