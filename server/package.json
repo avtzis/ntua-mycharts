@@ -2,7 +2,8 @@
   "main": "server.js",
   "scripts": {
     "start": "OPENSSL_CONF=/etc/ssl node server.js",
-    "dev": "OPENSSL_CONF=/etc/ssl nodemon"
+    "dev": "OPENSSL_CONF=/etc/ssl nodemon",
+    "installer": "ACCEPT_HIGHCHARTS_LICENSE=fuckyou HIGHCHARTS_VERSION=4.2.2 npm i --loglevel verbose"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
@@ -13,7 +14,7 @@
     "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
     "google-auth-library": "^8.7.0",
-    "highcharts-export-server": "^2.1.0",
+    "highcharts-export-server": "git+https://github.com/highcharts/node-export-server.git#5cbd3568dc9ce17d8ee74db1b9be70abd37fd5ec",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
     "mongoose-findorcreate": "^4.0.0",
