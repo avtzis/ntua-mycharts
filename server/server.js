@@ -5,7 +5,7 @@ const createPreviews = require('./utilities/createPreviews');
 const createTemplates=require('./utilities/createTemplates')
 
 // Connect to Database
-mongoose.connect('mongodb://127.0.0.1:27017/myCharts', {
+mongoose.connect('mongodb://mongo:27017/myCharts', {
   useNewUrlParser: true,
 }).then(() => {
   console.log('Database Connected.');
