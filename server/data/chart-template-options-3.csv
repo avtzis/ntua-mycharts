@@ -1,3 +1,6 @@
+
+chart.type,title.text,subtitle.text,xAxis.crosshair,yAxis.min,yAxis.title.text,tooltip.headerFormat,tooltip.pointFormat,tooltip.footerFormat,tooltip.shared,tooltip.useHTML,plotOptions.column.pointPadding,plotOptions.column.borderWidth
+"column","Monthly Average Rainfall","Source: WorldClimate.com",true,0,"Rainfall (mm)","<span style=\"font-size:10px\">{point.key}</span><table>","<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td><td style=\"padding:0\"><b>{point.y:.1f} mm</b></td></tr>","</table>",true,true,0.2,0
 "Category","Tokyo","New York","London","Berlin"
 "Jan",49.9,83.6,48.9,42.4
 "Feb",71.5,78.8,38.8,33.2

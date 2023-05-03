@@ -1,3 +1,7 @@
+title.text,subtitle.text,pane.startAngle,pane.endAngle,xAxis.tickInterval,xAxis.tickInterval,xAxis.min,xAxis.max,xAxis.labels.format,yAxis.min,plotOptions.series.pointStart,plotOptions.series.pointInterval,column.pointPadding,column.groupPadding
+"Highcharts Polar Chart","Also known as Radar Chart",0,360,45,0,360,"{value}°",0,0,45,0,0
+type
+"column"
 "Category","Column","Line","Area"
 0,8,1,1
 45,7,2,8
