@@ -1,5 +1,8 @@
 import React from 'react'
 import { Paper, Container, Typography, Box } from '@mui/material'
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
 import image from '../temp/output-chart.png'
 import LoginButton from '../components/LoginButton'
 import { useOutletContext } from 'react-router-dom'
@@ -11,24 +14,31 @@ const Landing = () => {
     <React.Fragment>
       <Container style={{
         paddingTop: "10px",
-        backgroundColor: "#add8e6",
         width: "80%",
-        overflowX: "auto",
-        overflowY: "hidden",
+        overflowX: "hidden",
+        overflowY: "auto",
         whiteSpace: "nowrap"
       }}>
-        <Paper variant='outlined' sx={{ width: '100%', marginTop: "10px", marginBottom: "10px" }} position={'relative'}>
-          <Paper variant='outlined' position={'relative'} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
-            <img src={image} alt="Preview" width="100%" height="100%" />
-          </Paper>
-          <Paper variant='outlined'  position={'relative'} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
-            <img src={image} alt="Preview" width="100%" height="100%" />
-          </Paper>
-          <Paper variant='outlined'  position={'relative'} sx={{width: 1/3, marginLeft: "5px", marginRight: "5px"}} style={{display: "inline-block"}}>
-            <img src={image} alt="Preview" width="100%" height="100%" />
-          </Paper>
-        </Paper>
-      </Container>
+      <center> 
+      <ImageList sx={{ width: 1, height: 1/2 }}>
+      {itemData.map((item) => (
+        <ImageListItem key={item.img}>
+          <img
+            src={`${item.img}?w=248&fit=crop&auto=format`}
+            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+            alt={item.title}
+            loading="lazy"
+          />
+          <ImageListItemBar
+            title={item.title}
+            subtitle={<span>by: {item.author}</span>}
+            position="below"
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
+    </center> 
+    </Container>
       {isLoggedIn || 
       <Container>
         <Typography align='center'>
@@ -44,4 +54,28 @@ const Landing = () => {
   )
 }
    
+
+const itemData = [
+  {
+    img: image,
+    title: 'Rabdogram',
+    author: 'Our code Source',
+  },
+  {
+    img: image,
+    title: 'Burger',
+    author: '@rollelflex_graphy726',
+  },
+  {
+    img: image,
+    title: 'Camera',
+    author: '@helloimnik',
+  },
+  {
+    img: image,
+    title: 'Coffee',
+    author: '@nolanissac',
+  },
+];
+
 export default Landing;
