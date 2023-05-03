@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 // Material UI Components
-import { AppBar, CssBaseline, ThemeProvider, Toolbar, useMediaQuery, Button, Box, IconButton, Typography, InputBase, Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Menu, MenuItem } from '@mui/material'
+import { AppBar, CssBaseline, ThemeProvider, Toolbar, useMediaQuery, Button, Box, IconButton, Typography, /* InputBase, */ Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Menu, MenuItem } from '@mui/material'
 
 // Custom Components
 import Copyright from '../components/Copyright';
@@ -17,7 +17,7 @@ import 'fontsource-roboto';
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -39,7 +39,7 @@ import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import api from '../utilities/api';
-import { alpha } from '@mui/material/styles'
+// import { alpha } from '@mui/material/styles'
 import getUser from '../utilities/getUser';
 import ThemeSwitch from '../components/ThemeSwitch';
 
@@ -226,7 +226,7 @@ const Layout = () => {
           </List>
         </Drawer>
         <Box component='main' sx={{flexGrow: 1, overflow: 'auto', pt: 10}}>
-          <Outlet context={user !== null} />
+          <Outlet context={user !== null} dark={darkMode}/>
           <footer>
             <Copyright />
           </footer>

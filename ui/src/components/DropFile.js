@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Paper, Box, Typography, LinearProgress, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { Backdrop, CircularProgress } from '@mui/material'
 import csvIcon from '../icons/csv-file-icon.svg'
+import csvIconDark from '../icons/csv-file-icon-dark.svg'
 import ClearIcon from '@mui/icons-material/Clear';
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -15,7 +16,7 @@ import highcharts from 'highcharts';
 let message = '';
 let severity = 'error';
 
-const DropFile = ({ onChangeMode }) => {
+const DropFile = ({ onChangeMode, dark }) => {
   const [uploaded, setUploaded] = React.useState(false);
   const [filename, setFilename] = React.useState('');
   const [progress, setProgress] = React.useState(0);
@@ -157,7 +158,7 @@ const DropFile = ({ onChangeMode }) => {
                 <Paper variant='outlined' sx={{p: 2}}>
                   <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <Box sx={{width: 55, display: 'flex', flexDirection: 'column'}}>
-                      <img src={csvIcon} alt='csv' style={{width: 50}} />
+                      <img src={dark ? csvIconDark : csvIcon} alt='csv' style={{width: 50}} />
                     </Box>
                     <Box sx={{width: '100%', pl: 2}}>
                       <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', pb: 1}}>
