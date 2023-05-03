@@ -55,6 +55,16 @@ const Landing = () => {
 const itemData = [
   {
     img: image,
+    title: 'Line Diagram',
+    URL: 'http://localhost:3000/preview/line'
+  },
+  {
+    img: image,
+    title: 'Area Chart',
+    URL: 'http://localhost:3000/preview/area'
+  },
+  {
+    img: image,
     title: 'Column Diagram',
     URL: 'http://localhost:3000/preview/column'
   },
