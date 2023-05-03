@@ -1,3 +1,8 @@
+
+accessibility.screenReaderSection.beforeChartFormat,title.text,title.align,subtitle.text,subtitle.align,tooltip.headerFormat
+"<h5>{chartTitle}</h5><div>{chartSubtitle}</div><div>{chartLongdesc}</div><div>{viewTableButton}</div>","Wordcloud of Alice\\'s Adventures in Wonderland","left","An excerpt from chapter 1: Down the Rabbit-Hole","left","<span style=\"font-size: 16px\"><b>{point.key}</b></span><br>"
+type
+"wordcloud"
 "Category","Occurrences"
 "Chapter",1
 "Down",1

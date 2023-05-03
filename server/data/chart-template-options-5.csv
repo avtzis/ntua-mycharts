@@ -1,3 +1,7 @@
+size
+"95%"
+type,name,dataLabels.color, dataLabels.style.textOutline,dataLabels.textPath.enabled,dataLabels.distance
+"dependencywheel","Dependency wheel series","#333","none",true,10
 "Category","Dependency wheel series (from)","Dependency wheel series (to)","Dependency wheel series (weight)"
 "highcharts-rk3iae5-2","Brazil","Portugal",5
 "highcharts-rk3iae5-3","Brazil","France",1

@@ -1,3 +1,6 @@
+
+chart.type,chart.plotBackground,chart.plotBorderWidth,chart.plotShadow,title.text,title.align,tooltip.pointFormat,accessibility.point.valueSuffix,plotOptions.pie.allowPointSelect,plotOptions.pie.cursor,plotOptions.pie.dataLabels.enabled,plotOptions.pie.dataLabels.format
+"pie",null,null,false,"Browser market shares in May, 2020","left","{series.name}: <b>{point.percentage:.1f}%</b>","%",true,"pointer",true,"<b>{point.name}</b>: {point.percentage:.1f} %"
 "Category","Brands"
 "Chrome",70.67
 "Edge",14.77
