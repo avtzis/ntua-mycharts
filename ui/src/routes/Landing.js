@@ -22,18 +22,18 @@ const Landing = () => {
       <center> 
       <ImageList sx={{ width: 1, height: 1/2 }}>
       {itemData.map((item) => (
-       <a href={item.URL}><ImageListItem key={item.img}>
+       <ImageListItem key={item.img}>
           <img
             src={`${item.img}?w=248&fit=crop&auto=format`}
             srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt={item.title}
             loading="lazy"
           />
-          <ImageListItemBar
+          <a href={item.URL}><ImageListItemBar
             title={item.title}
             position="below"
-          />
-        </ImageListItem></a> 
+          /></a> 
+        </ImageListItem>
       ))}
     </ImageList>
     </center> 
