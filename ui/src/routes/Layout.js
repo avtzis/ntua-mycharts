@@ -226,7 +226,7 @@ const Layout = () => {
           </List>
         </Drawer>
         <Box component='main' sx={{flexGrow: 1, overflow: 'auto', pt: 10}}>
-          <Outlet context={user !== null} dark={darkMode}/>
+          <Outlet context={{isLoggedIn: user !== null, dark: darkMode}} />
           <footer>
             <Copyright />
           </footer>

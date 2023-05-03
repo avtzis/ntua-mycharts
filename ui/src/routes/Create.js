@@ -5,7 +5,7 @@ import { Typography } from '@mui/material'
 import { useOutletContext } from 'react-router-dom'
 
 const Create = () => {
-  const dark = useOutletContext();
+  const { dark } = useOutletContext();
   const [previewMode, setPreviewMode] = React.useState(false);
 
   return (

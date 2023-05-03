@@ -8,7 +8,7 @@ import LoginButton from '../components/LoginButton'
 import { useOutletContext } from 'react-router-dom'
 
 const Landing = () => {
-  const isLoggedIn = useOutletContext();
+  const { isLoggedIn } = useOutletContext();
 
   return (
     <React.Fragment>
