@@ -14,7 +14,7 @@ const Landing = () => {
   return (
     <React.Fragment>
       {isLoggedIn || 
-      <Container>
+      <Container style={{marginTop: "20px"}}>
         <Typography align='center' id="Top">
           Press a diagram below to see how this works, or login with you Google account by pressing the button below
         </Typography>
@@ -45,7 +45,7 @@ const Landing = () => {
       </ImageList>
      </center>
      <center>
-      <Button variant="outlined"><a href="#Top"> Go top </a></Button>
+      <Button variant="outlined"><a href="./"> Go top </a></Button>
      </center>
     </React.Fragment>
   )
@@ -56,47 +56,47 @@ const itemData = [
   {
     img: image,
     title: 'Line Diagram',
-    URL: 'http://localhost:3000/preview/line'
+    URL: './preview/line'
   },
   {
     img: image,
     title: 'Area Chart',
-    URL: 'http://localhost:3000/preview/area'
+    URL: './preview/area'
   },
   {
     img: image,
     title: 'Column Diagram',
-    URL: 'http://localhost:3000/preview/column'
+    URL: './preview/column'
   },
   {
     img: image,
     title: 'Pie Chart',
-    URL: 'http://localhost:3000/preview/pie'
+    URL: './preview/pie'
   },
   {
     img: image,
     title: 'Dependenxy Wheel',
-    URL: 'http://localhost:3000/preview/dependencywheel'
+    URL: './preview/dependencywheel'
   },
   {
     img: image,
     title: 'Network Graph',
-    URL: 'http://localhost:3000/preview/networkgraph'
+    URL: './preview/networkgraph'
   },
   {
     img: image,
     title: 'Word Cloud',
-    URL: 'http://localhost:3000/preview/wordcloud'
+    URL: './preview/wordcloud'
   },
   {
     img: image,
     title: 'Organisation Chart',
-    URL: 'http://localhost:3000/preview/organization'
+    URL: './preview/organization'
   },
   {
     img: image,
     title: 'Polar Graph',
-    URL: 'http://localhost:3000/preview/polar'
+    URL: './preview/polar'
   },
 ];
 
