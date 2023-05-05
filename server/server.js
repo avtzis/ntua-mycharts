@@ -2,17 +2,16 @@ const app = require('./app');
 const mongoose = require('mongoose');
 const createTiers = require('./utilities/createTiers');
 const createPreviews = require('./utilities/createPreviews');
-const createTemplates=require('./utilities/createTemplates')
+const createTemplates = require('./utilities/createTemplates');
 
 // Connect to Database
-mongoose.connect('mongodb://mongo:27017/myCharts', {
+mongoose.connect(`mongodb://mongodb:27017/myCharts`, {
   useNewUrlParser: true,
 }).then(() => {
   console.log('Database Connected.');
   createTiers();
   createPreviews();
   createTemplates();
-
 }).catch(error => {
   console.error(error);
 });

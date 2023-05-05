@@ -1,7 +1,11 @@
 FROM docker.io/node:18
-WORKDIR /usr/src/app/server
+WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm run installer
 COPY . .
-EXPOSE 3001
-CMD ["npm", "start"]
+
+# dev
+CMD ["npm", "run", "dev"]
+
+# prod
+# CMD ["npm", "start"]

@@ -30,7 +30,7 @@ exports.postPurchase = async (req, res) => {
       },
       quantity: 1
     }],
-    success_url: 'http://localhost:3001/credits/success?sessionId={CHECKOUT_SESSION_ID}',
+    success_url: 'http://localhost:3000/api/credits/success?sessionId={CHECKOUT_SESSION_ID}',
     cancel_url: 'http://localhost:3000/dashboard'
   }).then(session => {
     Payment.create({ sessionId: session.id, item: tierId, user: userId });

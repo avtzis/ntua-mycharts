@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, Container, Typography, Box } from '@mui/material'
+import { Container, Typography, Box } from '@mui/material'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';

@@ -1,32 +1,58 @@
 services:
   ui:
+    container_name: saas23-1-ui
+    restart: always
     build: ./ui
-    ports:
-      - '3000:3000'
-    external_links:
-      - nginx-c
+    depends_on:
+      - server
     volumes:
-      - ./:/usr/src/app
-    hostname: ui
+      - /usr/src/app/node_modules
+      - ./ui:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
+
   server:
+    container_name: saas23-1-server
     restart: always
     build: ./server
-    ports:
-      - '3001:3001'
+    depends_on:
+      - mongodb
     external_links:
-      - mongo
-      - nginx-c
+      - mongodb
     volumes: 
-      - ./:/usr/src/app
-  mongo:
-    image: docker.io/mongo
-    exposes:
-      - '27017:27017'
-  nginx-c:
-    links:
-      - "ui:ui"
-      - "server:server"
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
 
+  mongodb:
+    container_name: saas23-1-db
+    image: docker.io/mongo
+    restart: always
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - SaaS23-1-myCharts
+
+  nginx:
+    container_name: saas23-1-nginx
+    restart: always
+    depends_on:
+      - server
+      - ui
     build: ./nginx
     ports: 
-      - '8000:8000'
+      - '3000:80'
+    networks:
+      - SaaS23-1-myCharts
+
+
+networks:
+  SaaS23-1-myCharts:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+    driver: local
