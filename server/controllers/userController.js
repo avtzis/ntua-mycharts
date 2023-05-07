@@ -21,7 +21,7 @@ exports.postLogin = async (req, res) => {
   return res.cookie('access_token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'None'
+    /* sameSite: 'strict' */
   }).status(200).json({message: 'Logged in successfully'});
 };
 

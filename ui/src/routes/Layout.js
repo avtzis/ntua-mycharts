@@ -127,7 +127,7 @@ const Layout = () => {
 
   const handleChange = (event) => {
     setDarkMode(event.target.checked);
-    setCookie('dark', !darkMode, { sameSite: 'none' });
+    setCookie('dark', !darkMode, { /* sameSite: 'strict' */ });
   };
 
   const handleLogout = () => {
