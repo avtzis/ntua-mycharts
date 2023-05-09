@@ -19,7 +19,7 @@ const Landing = () => {
           Press a diagram below to see how this works, or login with you Google account by pressing the button below
         </Typography>
         <Box sx={{display: 'flex', justifyContent: 'center'}}>
-          <Box sx={{width: 200}}>
+          <Box sx={{width: 201}}>
             <LoginButton />
           </Box>
         </Box>
