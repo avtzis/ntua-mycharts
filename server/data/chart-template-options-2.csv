@@ -14,3 +14,19 @@ lineColor, color, fillOpacity, name, marker.enabled, threshold
 ...
 data, x, y
 .....
+chart.type,chart.zoomType,chart.panning,chart.panKey,chart.scrollablePlotArea.minWidth,caption.text,title.text,title.align,accessibility.description,accessibility.landmarkVerbosity,lang.accesibility.screenReaderSection.annotations.descriptionNoPoints,credits.enabled
+"area","x",true,"shift",600,"This chart uses the Highcharts Annotations feature to place labels at various points of interest. The labels are responsive and will be hidden to avoid overlap on small screens.","2017 Tour de France Stage 8: Dole - Station des Rousses","left","This line chart uses the Highcharts Annotations feature to place labels at various points of interest. The labels are responsive and will be hidden to avoid overlap on small screens. Image description: An annotated line chart illustrates the 8th stage of the 2017 Tour de France cycling race from the start point in Dole to the finish line at Station des Rousses. Altitude is plotted on the Y-axis, and distance is plotted on the X-axis. The line graph is interactive, and the user can trace the altitude level along the stage. The graph is shaded below the data line to visualize the mountainous altitudes encountered on the 187.5-kilometre stage. The three largest climbs are highlighted at Col de la Joux, Côte de Viry and the final 11.7-kilometer, 6.4% gradient climb to Montée de la Combe de Laisia Les Molunes which peaks at 1200 meters above sea level. The stage passes through the villages of Arbois, Montrond, Bonlieu, Chassal and Saint-Claude along the route.","one","{annotationText}, at distance {annotation.options.point.x}km, elevation {annotation.options.point.y} meters.",false
+draggable, labelOptions.backgroundColor, labelOptions.verticalAlign, labelOptions.x, labelOptions.y, labelOptions.shape, labelOptions.align, labelOptions.justify, labelOptions.crop, labelOptions.fontSize, labelOptions.textOutline
+...
+labels, point.xAxis, point.yAxis, point.x, point.y, x, text
+0,0,96.2,783,"6.1 km climb <br>4.6% on avg."
+0,0,134.5,540,"7.6 km climb <br>5.2% on avg."
+0,0,172.2,925,"11.7 km climb <br>6.4% on avg."
+
+
+xAxis.labels.format, minRange, titleText, accessibility.rangeDescription, yAxis.startOnTick, yAxis.endOnTick, yAxis.maxPadding, yAxis.title.text, labels.format, accessibility.description, accessibility.rangeDescription, tooltip.headerFormat, tooltip.pointFormat, toolTip.shared, legend.enabled
+...
+lineColor, color, fillOpacity, name, marker.enabled, threshold
+...
+data, x, y
+.....

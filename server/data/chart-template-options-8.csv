@@ -32,3 +32,37 @@ nodes,id,title,name,color,image,column
 ,"Web",,"Web devs, sys admin"
 ,"Sales",,"Sales team"
 ,"Market",,Marketing team",,,5
+chart.height,chart.inverted,title.text,tooltip.outside,exporting.allowHTML,exporting.sourceWidth,export.sourceHeight
+600,true,"Highcharts Org Chart",true,true,800,600
+from,to
+"Shareholders","Board"
+"Board","CEO"
+"CEO","CTO"
+"CEO","CPO"
+"CEO","CSO"
+"CEO","HR"
+"CTO","Product"
+"CTO","Web"
+"CSO","Sales"
+"HR","Market"
+"CSO","Market"
+"HR","Market"
+"CTO","Market"
+type,name
+"organization","Highsoft"
+levels,level,color,dataLabels.color,height
+,1,"silver","black",25
+,2,"#980104"
+,4,"#359154"
+nodes,id,title,name,color,image,column
+,"Shareholders"
+,"Board"
+,"CEO","CEO","Atle Sivertsen",,"https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2022/06/30081411/portrett-sorthvitt.jpg"
+,"HR","CFO","Anne Jorunn Fjærestad","#007ad0","https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2020/03/17131210/Highsoft_04045_.jpg"
+,"CTO","CTO","Christer Vasseng",,"https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2020/03/17131120/Highsoft_04074_.jpg"
+,"CPO","CPO","Torstein Hønsi",,"https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2020/03/17131213/Highsoft_03998_.jpg"
+,"CSO","CSO","Anita Nesse",,"https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2020/03/17131156/Highsoft_03834_.jpg"
+,"Product",,"Product developers"
+,"Web",,"Web devs, sys admin"
+,"Sales",,"Sales team"
+,"Market",,Marketing team",,,5

@@ -1,16 +1,16 @@
-
-chart.type,title.text,subtitle.text,xAxis.crosshair,yAxis.min,yAxis.title.text,tooltip.headerFormat,tooltip.pointFormat,tooltip.footerFormat,tooltip.shared,tooltip.useHTML,plotOptions.column.pointPadding,plotOptions.column.borderWidth
-"column","Monthly Average Rainfall","Source: WorldClimate.com",true,0,"Rainfall (mm)","<span style=\"font-size:10px\">{point.key}</span><table>","<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td><td style=\"padding:0\"><b>{point.y:.1f} mm</b></td></tr>","</table>",true,true,0.2,0
-"Category","Tokyo","New York","London","Berlin"
-"Jan",49.9,83.6,48.9,42.4
-"Feb",71.5,78.8,38.8,33.2
-"Mar",106.4,98.5,39.3,34.5
-"Apr",129.2,93.4,41.4,39.7
-"May",144,106,47,52.6
-"Jun",176,84.5,48.3,75.5
-"Jul",135.6,105,59,57.4
-"Aug",148.5,104.3,59.6,60.4
-"Sep",216.4,91.2,52.4,47.6
-"Oct",194.1,83.5,65.2,39.1
-"Nov",95.6,106.6,59.3,46.8
-"Dec",54.4,92.3,51.2,51.1
+,,,,
+chart.type,title.text,subtitle,yAxis.title.text,xAxis.crosshair,
+column,Monthly Average Rainfall,Source: WorldClimate.com,Rainfall (mm),true,
+Category,Tokyo,New York,London,Berlin
+Jan,49.9,83.6,48.9,42.4
+Feb,71.5,78.8,38.8,33.2
+Mar,106.4,98.5,39.3,34.5
+Apr,129.2,93.4,41.4,39.7
+May,144,106,47,52.6
+Jun,176,84.5,48.3,75.5
+Jul,135.6,105,59,57.4
+Aug,148.5,104.3,59.6,60.4
+Sep,216.4,91.2,52.4,47.6
+Oct,194.1,83.5,65.2,39.1
+Nov,95.6,106.6,59.3,46.8
+Dec,54.4,92.3,51.2,51.1
