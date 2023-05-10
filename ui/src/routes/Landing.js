@@ -4,9 +4,18 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Button from '@mui/material/Button';
-import image from '../temp/output-chart.png'
+import imageLine from '../previews/line.png';
+import imageArea from '../previews/area.png';
+import imageColumn from '../previews/column.png';
+import imagePie from '../previews/pie.png';
+import imageDependency from '../previews/dependency.png';
+import imageNetwork from '../previews/network.png';
+import imageWordcloud from '../previews/wordcloud.png';
+import imageOrg from '../previews/org.png';
+import imagePolar from '../previews/polar.png';
 import LoginButton from '../components/LoginButton'
 import { useOutletContext } from 'react-router-dom'
+import { lightBlue } from '@mui/material/colors';
 
 const Landing = () => {
   const { isLoggedIn } = useOutletContext();
@@ -29,7 +38,7 @@ const Landing = () => {
       <ImageList sx={{ width: 0.75, height: 1/2 }}>
         {itemData.map((item) => (
         <ImageListItem key={item.img}>
-          <a href={item.URL}><ImageListItemBar
+          <a href={item.URL} style={{color: 'lightBlue'}}><ImageListItemBar
             title={item.title}
             position="below"
           /></a> 
@@ -45,59 +54,60 @@ const Landing = () => {
       </ImageList>
      </center>
      <center>
-      <Button variant="outlined"><a href="./"> Go top </a></Button>
+      <Button variant="outlined"><a href="./" style={{textDecoration: 'none'}}> Up </a></Button>
      </center>
+      
     </React.Fragment>
   )
 }
    
-
 const itemData = [
   {
-    img: image,
+    img: imageLine,
     title: 'Line Diagram',
     URL: './preview/line'
   },
   {
-    img: image,
+    img: imageArea,
     title: 'Area Chart',
     URL: './preview/area'
   },
   {
-    img: image,
+    img: imageColumn,
     title: 'Column Diagram',
     URL: './preview/column'
   },
   {
-    img: image,
+    img: imagePie,
     title: 'Pie Chart',
     URL: './preview/pie'
   },
   {
-    img: image,
-    title: 'Dependenxy Wheel',
+    img: imageDependency,
+    title: 'Dependency Wheel',
     URL: './preview/dependencywheel'
   },
   {
-    img: image,
+    img: imageNetwork,
     title: 'Network Graph',
     URL: './preview/networkgraph'
   },
   {
-    img: image,
-    title: 'Word Cloud',
+    img: imageWordcloud,
+    title: 'Wordcloud',
     URL: './preview/wordcloud'
   },
   {
-    img: image,
+    img: imageOrg,
     title: 'Organisation Chart',
     URL: './preview/organization'
   },
   {
-    img: image,
+    img: imagePolar,
     title: 'Polar Graph',
     URL: './preview/polar'
   },
 ];
+
 
 export default Landing;
