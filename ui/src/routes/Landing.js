@@ -54,7 +54,7 @@ const Landing = () => {
       </ImageList>
      </center>
      <center>
-      <Button variant="outlined"><a href="./"> Go top </a></Button>
+      <Button variant="outlined"><a href="./" style={{textDecoration: 'none'}}> Up </a></Button>
      </center>
       
     </React.Fragment>
