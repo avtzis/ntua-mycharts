@@ -1,5 +1,6 @@
 const Chart = require("../models/Chart");
 const User = require("../models/User");
+const template=require("../models/Templates")
 const exporter = require('highcharts-export-server');
 const exportChart = require("../utilities/exportChart");
 const exportHtml = require("../utilities/exportHtml");
@@ -61,8 +62,9 @@ exports.getTemplates = async (req, res) => {
   }
 
   //TODO: get template from database
-  let file = 'empty,csv';
-
+  
+  const template1=await template.findOne({ type});
+  const file=template1['csv'];
   return res.status(200).send(file);
 }
 

@@ -90,7 +90,7 @@ const DropFile = ({ onChangeMode, dark }) => {
         onChangeMode(true);
       }).catch(err => {
         console.error(err);
-        triggerAlert(err.response.data.message);
+        triggerAlert(err.response.data.message, 'error');
       })
     }
   };
