@@ -35,14 +35,17 @@ module.exports = async () => {
   charts.forEach(options => {
     Chart.findOrCreate({ 
       type: getType(options),
-      name: options.title.text,
-      options,
       preview: true,
     }, (err, data, created) => {
       if(err) {
         console.error(`There was an error finding or creating the ${data.type} chart.`);
       } else {
-        console.log(`A ${data.type} chart has been ${created ? 'created successfully' : 'verified'}.`);
+        data.name=options.title.text
+        data.options=options
+        data.save()
+        
+        
+        console.log(`A ${data.type} chart has been ${created ? 'created successfully' : 'updated'}.`);
       }
     })
   })

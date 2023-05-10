@@ -14,10 +14,6 @@ const types = [
   "polar",
 ];
 
-
-
-let templates = [];
-
 let import_csv = async (type, index) => {
   return new Promise((resolve, reject) => {
     datapath = path.join(
@@ -35,15 +31,17 @@ module.exports = async () => {
   Promise.all(types.map((type, index) => import_csv(type, index))).then(
     (templates) => {
       templates.forEach((template) => {
-        Templates.findOrCreate(template, (err, data, created) => {
+        Templates.findOrCreate({type:template.type}, (err, data, created) => {
           if (err) {
             console.error(
               `There was an error finding or creating ${data.type} template`
             );
           } else {
+            data.csv = template.csv;
+            data.save()
             console.log(
               `${data.type} template has been ${
-                created ? "created sucessfully" : "verified"
+                created ? "created sucessfully" : "updated"
               }.`
             );
           }
