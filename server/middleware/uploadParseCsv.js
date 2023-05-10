@@ -55,15 +55,18 @@ module.exports = async (req,res,next) =>{
     let series = rawData.slice(3);
 
 
-    //if (chartType !== 'dependencywheel') {
+    if (chartType !== 'dependencywheel') {
         transpose(series);
-    //}
+    }
+
 
     let resSeries =[];
     let xAxisCategories = [];
     let keysArray = [];
     let pieNames = [];
     let pieYs= [];
+    let lineNum = 0;
+    let dataArrays = [];
     for(let line of series){
 
         const check = line.find(el=>(el!== undefined && el !== "")) !== undefined;
@@ -85,16 +88,30 @@ module.exports = async (req,res,next) =>{
         //     data.name = "xAxis.categories";
         // }
         else {
+
             if (chartType === 'dependencywheel'){
-                const regex = /\(([^)]+)\)/;
-                const match = regex.exec(line[0]);
-                const contentInParentheses = match[1];
-                keysArray.push(contentInParentheses);
-                console.log("Help:", keysArray);
+                if (lineNum === 0) {
+                    data.keys = line.map(l=> {
+                        const regex = /\(([^)]+)\)/;
+                        const match = regex.exec(l);
+                        console.log("Check:", match[1]);
+                        return match[1];
+                    })
+                    // const match = regex.exec(line[0]);
+                    // const contentInParentheses = match[1];
+                    // keysArray.push(contentInParentheses);
+
+                }
+                else {
+                    console.log("Check2:", line);
+                    dataArrays.push(line);
+                }
             }
             else if (chartType === 'pie') {
                 data.name = line[0];
                 pieYs = line.slice(1);
+                pieYs = pieYs.map(i =>{return Number(i)});
+                console.log("Ys:", pieYs);
             }
             else {data.name = line[0];}
 
@@ -102,7 +119,7 @@ module.exports = async (req,res,next) =>{
             //     pieOptions.push()
             //     data.data = pieOptions;
             // }
-            if (chartType !== 'pie') {
+            if (chartType !== 'pie' && chartType !== 'dependencywheel') {
                 data.data = line.slice(1).map(num => {
                     if (num === undefined) {
                         return null;
@@ -141,6 +158,10 @@ module.exports = async (req,res,next) =>{
             data.keys = keysArray;
             console.log("Yoohoo", data.keys);
             //resSeries.push(data);
+        }
+        lineNum++;
+        if (chartType === 'dependencywheel'){
+            data.data = dataArrays;
         }
     }
     options.series = resSeries;
