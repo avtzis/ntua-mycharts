@@ -25,7 +25,7 @@
 * backend:
   - [ ] fix csv templates
   - [ ] finish csv validation
-  - [ ] implement 'get templates' endpoint
+  - [x] implement 'get templates' endpoint
 * general:
   - [ ] split backend into microsevrices
   - [x] add issues
