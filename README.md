@@ -21,14 +21,14 @@
 * frontend:
   - [ ] logo
   - [ ] theme (light kai dark)
-  - [ ] static preview pics on landing page
+  - [x] static preview pics on landing page
 * backend:
   - [ ] fix csv templates
   - [ ] finish csv validation
   - [ ] implement 'get templates' endpoint
 * general:
   - [ ] split backend into microsevrices
-  - [ ] add issues
+  - [x] add issues
   - [ ] switch docker to prod mode
   - [ ] host app on google
   - [ ] readme
