@@ -105,6 +105,23 @@ services:
     networks:
       - SaaS23-1-myCharts
 
+  exporter:
+    container_name: saas23-1-exporter
+    restart: always
+    build: 
+      context:  ./server
+      dockerfile: ./export-service/Dockerfile
+    depends_on:
+      - mongodb
+    external_links:
+      - mongodb
+    volumes: 
+      - ./server:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
+    environment:
+      - OPENSSL_CONF=/etc/ssl
+
   mongodb:
     container_name: saas23-1-db
     image: docker.io/mongo

@@ -15,7 +15,7 @@ const uploadMulterMiddleware = multer({storage: multer.memoryStorage()});
 
 // Endpoints
 router.post('/validate', auth,uploadMulterMiddleware.single('file'), parse, chartController.postValidate);
-router.post('/create', auth, chartController.postChart);
+// router.post('/create', auth, chartController.postChart);
 
 // router.get('/download/:id', auth, chartController.getChart);
 

@@ -9,14 +9,14 @@ module.exports = (type, options) => new Promise((resolve, reject) => {
     width: 1080
   }, (err, result) => {
     if(err) {
-      reject({type, status: 'fail', err});
+      throw reject({type, status: 'fail', err});
     }
 
     let data;
     if(type === 'png') {
       data = new Buffer.from(result.data, 'base64');
     } else {
-      const dataPath = path.join(__dirname, '..', result.filename);
+      const dataPath = path.join(__dirname, '../export-service', result.filename);
       data = fs.readFileSync(dataPath);
       fs.unlink(dataPath, error => reject({type, status: 'fail', error}));
     }
