@@ -1,31 +1,6 @@
-
-chart.type,chart.height,title.text,title.align,subtitle.text,subtitle.align,plotOptions.layoutAlgorithm.enableSimulation,layoutAlgorithm.friction
+,,,,
+chart.type,chart.height,title.text,title.align,subtitle.text,subtitle.align,plotOptions.layoutAlgorithm.enableSimulation,plotOptions.layoutAlgorithm.friction
 "networkgraph","100%","The Indo-European Language Tree","left","A Force-Directed Network Graph in Highcharts","left",true,-0.9
-accessibility.enabled,dataLabels.enabled,dataLabels.linkFormat
-false,true,""
-from,to
-"Proto Indo-European","Balto-Slavic"
-"Proto Indo-European","Germanic"
-"Proto Indo-European","Celtic"
-"Proto Indo-European","Italic"
-"Proto Indo-European","Hellenic"
-"Proto Indo-European","Anatolian"
-"Proto Indo-European","Indo-Iranian"
-"Proto Indo-European","Tocharian"
-"Indo-Iranian","Dardic"
-"Indo-Iranian","Indic"
-"Indo-Iranian","Iranian"
-"Iranian","Old Persian"
-"Old Persian","Middle Persian"
-"Indic","Sanskrit"
-"Italic","Osco-Umbrian"
-"Italic","Latino-Faliscan"
-"Latino-Faliscan","Latin"
-
-chart.type,chart.height,title.text,title.align,subtitle.text,subtitle.align,plotOptions.layoutAlgorithm.enableSimulation,layoutAlgorithm.friction
-"networkgraph","100%","The Indo-European Language Tree","left","A Force-Directed Network Graph in Highcharts","left",true,-0.9
-accessibility.enabled,dataLabels.enabled,dataLabels.linkFormat
-false,true,""
 from,to
 "Proto Indo-European","Balto-Slavic"
 "Proto Indo-European","Germanic"

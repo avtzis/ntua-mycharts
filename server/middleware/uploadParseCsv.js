@@ -34,11 +34,16 @@ module.exports = async (req,res,next) =>{
         let atts = attribute.split(".");
         let objRef = options;
 
+        // if (atts.length === 1) {
+        //     data.
+        // }
+
         for(let [i,attName] of atts.entries()){
             if(!(attName in objRef)) objRef[attName] = {};
-            console.log(options);
+            //console.log(options);
             if(atts.length - 1 === i){
-                objRef[attName] = value;
+                if (isNaN(value)) {objRef[attName] = value;}
+                else {objRef[attName] = Number(value);}
                 if (attName === "type") {
                     chartType = value;
                 }
@@ -50,12 +55,14 @@ module.exports = async (req,res,next) =>{
             }
         }
     }
-    console.log("Here:",chartType);
-    console.log(options);
+    //console.log("Here:",chartType);
+    //console.log(options);
     let series = rawData.slice(3);
 
-
-    if (chartType !== 'dependencywheel') {
+    // if (chartType === 'line') {
+    //
+    // }
+    if (chartType !== 'dependencywheel' && chartType !== 'networkgraph') {
         transpose(series);
     }
 
@@ -89,29 +96,50 @@ module.exports = async (req,res,next) =>{
         // }
         else {
 
-            if (chartType === 'dependencywheel'){
+            if (chartType === 'dependencywheel' || chartType === 'networkgraph'){
                 if (lineNum === 0) {
-                    data.keys = line.map(l=> {
+                    if (chartType === 'dependencywheel'){
+                    data.keys = line.map(l => {
                         const regex = /\(([^)]+)\)/;
                         const match = regex.exec(l);
-                        console.log("Check:", match[1]);
+                        //console.log("Check:", match[1]);
                         return match[1];
                     })
+                    }
+                    else{
+                    //     options.plotOptions.networkgraph.push({
+                    //         keys: line,
+                    // })
+                        //     networkgraph: {
+                        //         keys: line,
+                        //     }
+                        // }
+                        options.plotOptions = {
+                            networkgraph: {
+                                keys: line,
+                            }
+                        }
+                                //options.plotOptions.networkgraph.keys =line
+                    }
                     // const match = regex.exec(line[0]);
                     // const contentInParentheses = match[1];
                     // keysArray.push(contentInParentheses);
 
                 }
                 else {
-                    console.log("Check2:", line);
-                    dataArrays.push(line);
+                    //console.log("Check2:", line);
+                    let line2 = line.map(l=>{
+                        if (isNaN(l)) return l;
+                        else return Number(l);
+                    })
+                    dataArrays.push(line2);
                 }
             }
             else if (chartType === 'pie') {
                 data.name = line[0];
                 pieYs = line.slice(1);
                 pieYs = pieYs.map(i =>{return Number(i)});
-                console.log("Ys:", pieYs);
+                //console.log("Ys:", pieYs);
             }
             else {data.name = line[0];}
 
@@ -119,7 +147,7 @@ module.exports = async (req,res,next) =>{
             //     pieOptions.push()
             //     data.data = pieOptions;
             // }
-            if (chartType !== 'pie' && chartType !== 'dependencywheel') {
+            if (chartType !== 'pie' && chartType !== 'dependencywheel' && chartType !== 'networkgraph') {
                 data.data = line.slice(1).map(num => {
                     if (num === undefined) {
                         return null;
@@ -156,16 +184,16 @@ module.exports = async (req,res,next) =>{
         if (keysArray.length!==0) {
             if (data.keys === undefined){data.keys = [];}
             data.keys = keysArray;
-            console.log("Yoohoo", data.keys);
+            //console.log("Yoohoo", data.keys);
             //resSeries.push(data);
         }
-        lineNum++;
-        if (chartType === 'dependencywheel'){
+        if (chartType === 'dependencywheel' || chartType === 'networkgraph'){
             data.data = dataArrays;
         }
+        lineNum++;
     }
     options.series = resSeries;
-    console.log(resSeries);
+    //console.log(resSeries);
 
     req.options = options;
     next()

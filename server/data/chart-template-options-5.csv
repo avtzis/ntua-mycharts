@@ -1,5 +1,5 @@
 ,,,,
-chart.type,name,dataLabels.color, dataLabels.style.textOutline,dataLabels.textPath.enabled,dataLabels.distance,size
+chart.type,series.name,dataLabels.color, dataLabels.style.textOutline,dataLabels.textPath.enabled,dataLabels.distance,series.size
 dependencywheel,"Dependency wheel series","#333","none",true,10,'95%'
 "Dependency wheel series (from)","Dependency wheel series (to)","Dependency wheel series (weight)"
 "Brazil","Portugal",5
