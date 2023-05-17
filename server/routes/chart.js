@@ -17,10 +17,10 @@ const uploadMulterMiddleware = multer({storage: multer.memoryStorage()});
 router.post('/validate', auth,uploadMulterMiddleware.single('file'), parse, chartController.postValidate);
 router.post('/create', auth, chartController.postChart);
 
-router.get('/download/:id', auth, chartController.getChart);
+// router.get('/download/:id', auth, chartController.getChart);
 
-router.get('/template', auth, chartController.getTemplates);
-router.get('/preview', chartController.getPreviews);
+// router.get('/template', auth, chartController.getTemplates);
+// router.get('/preview', chartController.getPreviews);
 
 // Export Router
 module.exports = router;

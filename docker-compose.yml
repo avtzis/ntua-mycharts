@@ -57,6 +57,54 @@ services:
     networks:
       - SaaS23-1-myCharts
 
+  previewhandler:
+    container_name: saas23-1-preview-handler
+    restart: always
+    build: 
+      context:  ./server
+      dockerfile: ./preview-service/Dockerfile
+    depends_on:
+      - mongodb
+    external_links:
+      - mongodb
+    volumes: 
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
+
+  templatehandler:
+    container_name: saas23-1-template-handler
+    restart: always
+    build: 
+      context:  ./server
+      dockerfile: ./template-service/Dockerfile
+    depends_on:
+      - mongodb
+    external_links:
+      - mongodb
+    volumes: 
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
+
+  downloader:
+    container_name: saas23-1-downloader
+    restart: always
+    build: 
+      context:  ./server
+      dockerfile: ./download-service/Dockerfile
+    depends_on:
+      - mongodb
+    external_links:
+      - mongodb
+    volumes: 
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
+
   mongodb:
     container_name: saas23-1-db
     image: docker.io/mongo
