@@ -122,6 +122,22 @@ services:
     environment:
       - OPENSSL_CONF=/etc/ssl
 
+  validator:
+    container_name: saas23-1-validator
+    restart: always
+    build: 
+      context:  ./server
+      dockerfile: ./validate-service/Dockerfile
+    depends_on:
+      - mongodb
+    external_links:
+      - mongodb
+    volumes: 
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
+
   mongodb:
     container_name: saas23-1-db
     image: docker.io/mongo

@@ -3,9 +3,9 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 // Import Routes
-const user = require('./routes/user');
-const chart = require('./routes/chart');
-const credits = require('./routes/credits');
+// const user = require('./routes/user');
+// const chart = require('./routes/chart');
+// const credits = require('./routes/credits');
 
 // Express App
 const app = express();
@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 
 // Routes
 //app.use('/api/user', user);
-app.use('/api/chart', chart);
+// app.use('/api/chart', chart);
 //app.use('/api/credits', credits);
 
 // Error 404
