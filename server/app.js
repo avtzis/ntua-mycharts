@@ -26,9 +26,9 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/api/user', user);
+//app.use('/api/user', user);
 app.use('/api/chart', chart);
-app.use('/api/credits', credits);
+//app.use('/api/credits', credits);
 
 // Error 404
 app.use((req, res) => {

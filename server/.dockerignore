@@ -1,2 +1,6 @@
-node_modules/
-Dockerfile
+controllers
+node_modules
+routes
+temp
+app.js
+server.js

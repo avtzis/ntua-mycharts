@@ -25,6 +25,38 @@ services:
     networks:
       - SaaS23-1-myCharts
 
+  authenticator:
+    container_name: saas23-1-authenticator
+    restart: always
+    build: 
+      context:  ./server
+      dockerfile: ./authentication-service/Dockerfile
+    depends_on:
+      - mongodb
+    external_links:
+      - mongodb
+    volumes: 
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
+
+  credithandler:
+    container_name: saas23-1-credit-handler
+    restart: always
+    build: 
+      context:  ./server
+      dockerfile: ./credits-service/Dockerfile
+    depends_on:
+      - mongodb
+    external_links:
+      - mongodb
+    volumes: 
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    networks:
+      - SaaS23-1-myCharts
+
   mongodb:
     container_name: saas23-1-db
     image: docker.io/mongo
