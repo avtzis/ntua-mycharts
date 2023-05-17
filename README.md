@@ -27,7 +27,8 @@
   - [ ] finish csv validation
   - [x] implement 'get templates' endpoint
 * general:
-  - [ ] split backend into microsevrices
+  - [x] split backend into microsevrices
+  - [ ] add rabbitm queue
   - [x] add issues
   - [ ] switch docker to prod mode
   - [ ] host app on google
