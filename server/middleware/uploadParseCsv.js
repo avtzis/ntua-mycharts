@@ -44,8 +44,11 @@ module.exports = async (req,res,next) =>{
             if(atts.length - 1 === i){
                 if (isNaN(value)) {objRef[attName] = value;}
                 else {objRef[attName] = Number(value);}
-                if (attName === "type") {
+                if (attName === "type" ) {
                     chartType = value;
+                }
+                else if (attName === "polar") {
+                    chartType = 'polar';
                 }
             }else {
                 if (isNaN(objRef[attName])) {
@@ -62,10 +65,9 @@ module.exports = async (req,res,next) =>{
     // if (chartType === 'line') {
     //
     // }
-    if (chartType !== 'dependencywheel' && chartType !== 'networkgraph') {
+    if (chartType !== 'dependencywheel' && chartType !== 'networkgraph' && chartType !== 'wordcloud') {
         transpose(series);
     }
-
 
     let resSeries =[];
     let xAxisCategories = [];
@@ -74,6 +76,8 @@ module.exports = async (req,res,next) =>{
     let pieYs= [];
     let lineNum = 0;
     let dataArrays = [];
+    let polarData = [];
+    let polarAtts = [];
     for(let line of series){
 
         const check = line.find(el=>(el!== undefined && el !== "")) !== undefined;
@@ -84,7 +88,10 @@ module.exports = async (req,res,next) =>{
             if (chartType === 'pie') {
                 pieNames = line.slice(1);
             }
-            else if (line.slice(1)!==null) {
+            else if (chartType === 'wordcloud'){
+                data.name = line[1];
+            }
+            else if (chartType ==='line' && line.slice(1)!==null) {
                 xAxisCategories = line.slice(1);
             }
             // else if (chartType === 'column'){
@@ -95,8 +102,7 @@ module.exports = async (req,res,next) =>{
         //     data.name = "xAxis.categories";
         // }
         else {
-
-            if (chartType === 'dependencywheel' || chartType === 'networkgraph'){
+            if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'polar'){
                 if (lineNum === 0) {
                     if (chartType === 'dependencywheel'){
                     data.keys = line.map(l => {
@@ -105,6 +111,11 @@ module.exports = async (req,res,next) =>{
                         //console.log("Check:", match[1]);
                         return match[1];
                     })
+                    }
+                    else if (chartType === 'polar') {
+                        //const noEmptyStrings = line.filter((str) => str !== '');
+                        polarAtts = line.filter((str) => str !== '');
+                        console.log("Length of polar atts:", polarAtts.length);
                     }
                     else{
                     //     options.plotOptions.networkgraph.push({
@@ -127,12 +138,24 @@ module.exports = async (req,res,next) =>{
 
                 }
                 else {
-                    //console.log("Check2:", line);
-                    let line2 = line.map(l=>{
-                        if (isNaN(l)) return l;
-                        else return Number(l);
-                    })
-                    dataArrays.push(line2);
+                    let polarJSON = {};
+                    if (chartType === 'polar'){
+                        for (let i=0; i<polarAtts.length-1; i++) {
+                            polarJSON[polarAtts[i]] = line[i];
+                        }
+                        polarJSON["data"] = line.slice(polarAtts.length-1).map(num =>{return Number(num)});
+                        console.log("the JSON is:",polarJSON);
+                        if (Object.keys(polarJSON).length !==0) polarData.push(polarJSON);
+                        console.log("polarData is:", polarData);
+                    }
+                    else {
+                        //console.log("Check2:", line);
+                        let line2 = line.map(l => {
+                            if (isNaN(l)) return l;
+                            else return Number(l);
+                        })
+                        dataArrays.push(line2);
+                    }
                 }
             }
             else if (chartType === 'pie') {
@@ -141,13 +164,17 @@ module.exports = async (req,res,next) =>{
                 pieYs = pieYs.map(i =>{return Number(i)});
                 //console.log("Ys:", pieYs);
             }
+            else if (chartType === 'wordcloud') {
+                dataArrays.push(
+                    {name:line[0], weight:line[1]});
+            }
             else {data.name = line[0];}
 
             // if (chartType === 'pie') {
             //     pieOptions.push()
             //     data.data = pieOptions;
             // }
-            if (chartType !== 'pie' && chartType !== 'dependencywheel' && chartType !== 'networkgraph') {
+            if (chartType !== 'pie' && chartType !== 'dependencywheel' && chartType !== 'networkgraph' && chartType !== 'wordcloud' && chartType !== 'polar') {
                 data.data = line.slice(1).map(num => {
                     if (num === undefined) {
                         return null;
@@ -159,7 +186,7 @@ module.exports = async (req,res,next) =>{
                     }
                 });
             }
-            else {
+            else if (chartType === 'pie') {
                 let temp = [];
                 if (pieNames.length!==0 && pieYs.length!==0) {
                     for (let i=0; i<pieNames.length; i++) {
@@ -169,7 +196,7 @@ module.exports = async (req,res,next) =>{
                 }
             }
         }
-        if (line[0] !== "Category") { //data.name !== "Category"
+        if (line[0] !== "Category" && chartType!=='polar') { //data.name !== "Category"
             resSeries.push(data);
             //options.push(data);
         }
@@ -187,8 +214,11 @@ module.exports = async (req,res,next) =>{
             //console.log("Yoohoo", data.keys);
             //resSeries.push(data);
         }
-        if (chartType === 'dependencywheel' || chartType === 'networkgraph'){
+        if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'wordcloud'){
             data.data = dataArrays;
+        }
+        if (chartType === 'polar') {
+            resSeries = polarData;
         }
         lineNum++;
     }
@@ -196,5 +226,6 @@ module.exports = async (req,res,next) =>{
     //console.log(resSeries);
 
     req.options = options;
+    console.log(options);
     next()
 }
