@@ -65,8 +65,16 @@ module.exports = async (req,res,next) =>{
     // if (chartType === 'line') {
     //
     // }
-    if (chartType !== 'dependencywheel' && chartType !== 'networkgraph' && chartType !== 'wordcloud') {
+    //console.log("help");
+    //let firstLine = [];
+    let firstLineLength=0;
+    if (chartType !== 'dependencywheel' && chartType !== 'networkgraph' && chartType !== 'wordcloud' && chartType !== 'organization') {
         transpose(series);
+    }
+    else if (chartType === 'organization') {
+         firstLineLength = series.map(value =>  value[0]).length;
+         console.log("first line length:", firstLineLength);
+        //console.log("First line:", firstLine);
     }
 
     let resSeries =[];
@@ -77,7 +85,11 @@ module.exports = async (req,res,next) =>{
     let lineNum = 0;
     let dataArrays = [];
     let polarData = [];
+    let orgData = {};
     let polarAtts = [];
+    let currentAtt = '';
+    let innerAtts = [];
+    let tempArray = [];
     for(let line of series){
 
         const check = line.find(el=>(el!== undefined && el !== "")) !== undefined;
@@ -102,8 +114,8 @@ module.exports = async (req,res,next) =>{
         //     data.name = "xAxis.categories";
         // }
         else {
-            if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'polar'){
-                if (lineNum === 0) {
+            if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'polar' || chartType === 'organization'){
+                if (lineNum === 0 && chartType !== 'organization') {
                     if (chartType === 'dependencywheel'){
                     data.keys = line.map(l => {
                         const regex = /\(([^)]+)\)/;
@@ -117,7 +129,10 @@ module.exports = async (req,res,next) =>{
                         polarAtts = line.filter((str) => str !== '');
                         console.log("Length of polar atts:", polarAtts.length);
                     }
-                    else{
+                    // else if (chartType === 'organization') {
+                    //     //polarAtts = firstLine;
+                    // }
+                    else if (chartType !=='networkgraph') {
                     //     options.plotOptions.networkgraph.push({
                     //         keys: line,
                     // })
@@ -147,6 +162,67 @@ module.exports = async (req,res,next) =>{
                         console.log("the JSON is:",polarJSON);
                         if (Object.keys(polarJSON).length !==0) polarData.push(polarJSON);
                         console.log("polarData is:", polarData);
+                    }
+                    else if (chartType === 'organization') {
+                        if (line[0]!== '') {
+                            // if (Object.keys(tempJSON).length !== 0) {
+                            //     //polarJSON[currentAtt].push(tempJSON);
+                            //     polarData.push(polarJSON);
+                            // }
+                            if (currentAtt!=='') orgData[currentAtt] = tempArray;
+                            //if (Object.keys(polarJSON).length !==0) polarData.push(polarJSON[currentAtt]);
+                            //tempJSON = {};
+                            tempArray = [];
+                            currentAtt = line[0];
+                            console.log("Att:", currentAtt);
+                            innerAtts=line.slice(1);
+                            // polarJSON[currentAtt] = [];
+                        }
+                        else {
+                            if (innerAtts.length === 0) {
+                                //if (!polarJSON.hasOwnProperty(currentAtt))  polarJSON[currentAtt] = [];
+                                if (currentAtt === 'keys') tempArray = line.slice(1);
+                                else tempArray.push(line.slice(1));
+                                console.log("temp array:", tempArray);
+                                // console.log("lineslice1:", line.slice(1));
+                                // polarJSON[currentAtt].push(line.slice(1)); // line[i];
+                                // console.log("Here1", polarJSON[currentAtt]);
+                            }
+                            else {
+                                //for (let i in line.slice(1)) {
+                                    //if (!polarData.hasOwnProperty(currentAtt))  polarData[currentAtt] = [];
+                                    //console.log("Here2", line[i]);
+                                    // if (polarAtts[i] !== '') {
+                                    //     currentAtt = polarAtts[i];
+                                    //     innerAtts = line.slice(1);
+                                    //     //continue} else
+                                    // if (innerAtts.length === 0) {
+                                    //     polarJSON[currentAtt] = line; // line[i];
+                                    //     //console.log("Here1", polarJSON[currentAtt]);}
+                                    //else
+                                    //if (thisSession.hasOwnProperty("merchant_id"))
+                                    //polarJSON[currentAtt] = [];
+                                tempJSON = {};
+                                    for (let j = 0; j < innerAtts.length; j++) {
+                                        if (line[j+1]!=='' && line[j+1]!==undefined)
+                                        tempJSON[innerAtts[j]] = line[j + 1];
+                                    }
+                                tempArray.push(tempJSON);
+                                    //polarData[currentAtt].push(tempJSON);
+                                    console.log("Here2:",  tempArray);
+                                    // }
+                                //}
+                                //polarData.push(polarJSON);
+                            }
+                            if (lineNum === firstLineLength-1){ //&& Object.keys(tempJSON).length !== 0) {
+                                //polarJSON[currentAtt].push(tempJSON);
+                                orgData[currentAtt] = tempArray;
+                                //polarData.push(polarJSON[currentAtt]);
+                            }
+                        }
+                        //console.log("the JSON is:",polarJSON);
+                        // polarData.push(polarJSON);
+                        //console.log("polarData is:", polarData);
                     }
                     else {
                         //console.log("Check2:", line);
@@ -196,7 +272,7 @@ module.exports = async (req,res,next) =>{
                 }
             }
         }
-        if (line[0] !== "Category" && chartType!=='polar') { //data.name !== "Category"
+        if (line[0] !== "Category" && chartType!=='polar'  && chartType!=='organization') { //data.name !== "Category"
             resSeries.push(data);
             //options.push(data);
         }
@@ -217,8 +293,14 @@ module.exports = async (req,res,next) =>{
         if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'wordcloud'){
             data.data = dataArrays;
         }
-        if (chartType === 'polar') {
+        if (chartType === 'polar' ) {
             resSeries = polarData;
+            //console.log(resSeries);
+        }
+        if (chartType === 'organization'){
+            let nullArray = [];
+            nullArray.push(orgData);
+            resSeries = nullArray;
         }
         lineNum++;
     }
@@ -226,6 +308,6 @@ module.exports = async (req,res,next) =>{
     //console.log(resSeries);
 
     req.options = options;
-    console.log(options);
+    console.log("Final object",options);
     next()
 }
