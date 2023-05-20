@@ -90,6 +90,9 @@ module.exports = async (req,res,next) =>{
         //console.log("First line:", firstLine);
     }
 
+    series = series.map(row => row.map(checkValue));
+    console.log("Series is:", series);
+
     let resSeries =[];
     let xAxisCategories = [];
     let keysArray = [];
@@ -155,9 +158,9 @@ module.exports = async (req,res,next) =>{
                         // }
 
                         options.plotOptions = {
-                            networkgraph: {
+                            "networkgraph": {
                                 keys: line,
-                            }
+                            },
                         }
                         //options.plotOptions.networkgraph.keys =line
                     }
@@ -299,16 +302,17 @@ module.exports = async (req,res,next) =>{
             //     data.data = pieOptions;
             // }
             if (chartType !== 'pie' && chartType !== 'dependencywheel' && chartType !== 'networkgraph' && chartType !== 'wordcloud' && chartType !== 'polar') {
-                data.data = line.slice(1).map(num => {
-                    if (num === undefined) {
-                        return null;
-                    }
-                    if (data.name === "Category" || isNaN(num)) {//"xAxis.categories"
-                        return num;
-                    } else {
-                        return Number(num);
-                    }
-                });
+                data.data = line.slice(1);
+                    // .map(num => {
+                    // if (num === undefined) {
+                    //     return null;
+                    // }
+                    // if (data.name === "Category" || isNaN(num)) {//"xAxis.categories"
+                    //     return num;
+                    // } else {
+                    //     return Number(num);
+                    // }
+                //});
             }
             else if (chartType === 'pie') {
                 let temp = [];
@@ -358,6 +362,6 @@ module.exports = async (req,res,next) =>{
     //console.log(resSeries);
 
     req.options = options;
-    //console.log("Final object", JSON.stringify(options, null, 2));
+    console.log("Final object", JSON.stringify(options, null, 2));
     next()
 }
