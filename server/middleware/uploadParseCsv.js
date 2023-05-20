@@ -106,6 +106,7 @@ module.exports = async (req,res,next) =>{
     let currentAtt = '';
     let innerAtts = [];
     let tempArray = [];
+    let networkArray = [];
     for(let line of series){
 
         const check = line.find(el=>(el!== undefined && el !== "")) !== undefined;
@@ -282,6 +283,7 @@ module.exports = async (req,res,next) =>{
                             else return Number(l);
                         })
                         dataArrays.push(line2);
+                        console.log("dataArrays is:", dataArrays)
                     }
                 }
             }
@@ -324,7 +326,7 @@ module.exports = async (req,res,next) =>{
                 }
             }
         }
-        if (line[0] !== "Category" && chartType!=='polar'  && chartType!=='organization' && chartType!=='area') { //data.name !== "Category"
+        if (line[0] !== "Category" && chartType!=='polar' && chartType !== 'networkgraph' && chartType !== 'dependencywheel' && chartType !== 'wordcloud' && chartType!=='organization' && chartType!=='area') { //data.name !== "Category"
             resSeries.push(data);
             //options.push(data);
         }
@@ -344,6 +346,11 @@ module.exports = async (req,res,next) =>{
         }
         if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'wordcloud'){
             data.data = dataArrays;
+        // }
+        // if (chartType === 'networkgraph' || chartType === 'dependencywheel' || chartType === 'wordcloud') {
+            networkArray = data.data;
+            // nullJSON["data"] = data.data;
+            // resSeries.push(nullJSON);
         }
         if (chartType === 'polar' ) {
             resSeries = polarData;
@@ -356,12 +363,17 @@ module.exports = async (req,res,next) =>{
         }
         lineNum++;
     }
+    if (chartType === 'networkgraph' || chartType === 'dependencywheel' || chartType === 'wordcloud') {
+        let nullJSON = {};
+        nullJSON["data"] = networkArray;
+        resSeries.push(nullJSON);
+    }
     //if (chartType === 'area') options=
     if (chartType !== 'area')
         options.series = resSeries;
     //console.log(resSeries);
 
     req.options = options;
-    console.log("Final object", JSON.stringify(options, null, 2));
+    // console.log("Final object", JSON.stringify(options, null, 2));
     next()
 }
