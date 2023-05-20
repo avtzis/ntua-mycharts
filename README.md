@@ -39,10 +39,10 @@
 ## λειτουργίες
 
 - [x] Διαχείριση χρηστών και είσοδο με λογαριασμό Google
-- [ ] protupa arxeia dedomenwn (csv templates) gia ola ta charts
+- [x] protupa arxeia dedomenwn (csv templates) gia ola ta charts
 - [x] Κατέβασμα πρότυπου αρχείου δεδομένων και παραμέτρων μορφοποίησης, για κάθε υποστηριζόμενο τύπο διαγράμματος
 - [x] Ανέβασμα αρχείου δεδομένων και παραμέτρων μορφοποίησης
-- [ ] elegxos egkurotitas arxeiou
+- [x] elegxos egkurotitas arxeiou
 - [x] proepiskopisi diagrammatos pou dimiourgeitai
 - [x] Δημιουργία διαγράμματος και αποθήκευση στον server στους υποστηριζόμενους μορφότυπους pdf, png, svg και html
 - [x] Εμφάνιση των διαγραμμάτων που έχει δημιουργήσει κάθε χρήστης
