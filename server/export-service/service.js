@@ -32,12 +32,12 @@ app.use((req, res) => {
 mongoose.connect(`mongodb://mongodb:27017/myCharts`, {
   useNewUrlParser: true,
 }).then(() => {
-  console.log('[Download Service]: Database Connected.');
+  console.log('[Export Service]: Database Connected.');
 }).catch(error => {
   console.error(error);
 });
 
 // Host Service
 app.listen(3007, () => {
-  console.log('[Download Service]: Started on port 3007');
+  console.log('[Export Service]: Started on port 3007');
 });
