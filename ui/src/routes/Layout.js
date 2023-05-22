@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 // Material UI Components
 import { AppBar, CssBaseline, ThemeProvider, Toolbar, useMediaQuery, Button, Box, IconButton, Typography, /* InputBase, */ Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Menu, MenuItem } from '@mui/material'
@@ -96,6 +96,7 @@ const Layout = () => {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [user, setUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const openMenu = Boolean(anchorEl);
 
@@ -165,7 +166,7 @@ const Layout = () => {
             <Box sx={{px: 3, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
               <Box>
                 {barItems.filter(item => item.logged !== (user === null)).map(item => (
-                    <Button key={item.name} href={item.link} color='inherit'>{item.name}</Button>
+                    <Button key={item.name} onClick={() => navigate(item.link)} color='inherit'>{item.name}</Button>
                   ))
                 }
               </Box>
