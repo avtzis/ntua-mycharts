@@ -159,7 +159,7 @@ const Layout = () => {
                 {open ? <ChevronLeftIcon /> : <MenuIcon />}
               </IconButton>
               <AutoGraphIcon fontSize='large' sx={{mr: 1}}/>
-              <Typography variant='h6' href='/' component='a' noWrap sx={{fontFamily: 'monospace', fontWeight: 700, color: 'inherit', textDecoration: 'none', letterSpacing: '.1rem'}}>
+              <Typography variant='h6' onClick={() => navigate('/')} component='a' noWrap sx={{fontFamily: 'monospace', fontWeight: 700, color: 'inherit', textDecoration: 'none', letterSpacing: '.1rem'}}>
                 myCharts
               </Typography>
             </Box>
@@ -205,7 +205,7 @@ const Layout = () => {
           <List>
             {barItems.filter(item => item.logged !== (user === null)).map(item => (
               <ListItem key={item.name} disablePadding>
-                <ListItemButton href={item.link}>
+                <ListItemButton onClick={() => navigate(item.link)}>
                   <ListItemIcon sx={{color: 'inherit'}}>
                     {item.icon}
                   </ListItemIcon>

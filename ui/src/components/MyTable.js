@@ -9,9 +9,13 @@ import api from '../utilities/api';
 import fileDownload from 'js-file-download';
 import MyAlert from './MyAlert';
 
+const addZero = number => {
+  return number < 10 ? `0${number}` : number;
+}
+
 const dateFormat = date => {
   date = new Date(date);
-  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
+  return `${addZero(date.getDate())}/${addZero(date.getMonth() + 1)}/${date.getFullYear()} ${addZero(date.getHours())}:${addZero(date.getMinutes())}`
 }
 
 const BlankPreview = () => {
