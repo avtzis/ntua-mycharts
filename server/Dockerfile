@@ -5,7 +5,7 @@ RUN npm run installer
 COPY . .
 
 # dev
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
 
 # prod
-# CMD ["npm", "start"]
+CMD ["npm", "start"]
