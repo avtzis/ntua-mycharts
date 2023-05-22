@@ -2,19 +2,24 @@
 1. install `docker` `docker-compose`
 2. tin prwti fora:
       ```sh
-      sudo docker-compose up --build --remove-orphans --force-recreate
+      sudo docker-compose up --build
       ```
+      gia silent mode: `-d`
+      
     apo kei kai meta:
 
       ```sh
       sudo docker-compose up
       ```
+    gia allages:
 
-    den xreiazetai na to trexoume sinexeia. pros to paron kai to backend kai to frontend ananewnontai mona tous meta apo kathe allagi
+      ```sh
+      sudo docker-compose up --build --remove-orphans --force-recreate
+      ```
 
 3. gia ploigisi:
     * frontend: `localhost:3000/`
-    * backend: `localhost:3000/api/`
+    * services: `localhost:3000/api/*`
 
 
 ## ti exei meinei
@@ -23,17 +28,20 @@
   - [ ] theme (light kai dark)
   - [x] static preview pics on landing page
 * backend:
-  - [ ] fix csv templates
-  - [ ] finish csv validation
+  - [x] fix csv templates
+  - [x] finish csv validation
   - [x] implement 'get templates' endpoint
 * general:
   - [x] split backend into microsevrices
   - [ ] add rabbitm queue
   - [x] add issues
-  - [ ] switch docker to prod mode
-  - [ ] host app on google
+  - [x] switch docker to prod mode
+  - [ ] host app on aws
   - [ ] readme
-  - [ ] uml final form
+  - [ ] uml final form (+ github links)
+  - [ ] add comments to code
+  - [ ] stress tests
+  - [ ] Ενημερωμένος δικτυακός τόπος στο GitHub με την πορεία διαχείρισης του έργου με 3-4 sprints ?????????
 
 
 ## λειτουργίες
