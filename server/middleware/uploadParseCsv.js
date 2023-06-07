@@ -38,7 +38,7 @@ module.exports = async (req,res,next) =>{
     //make an object according to the attributes
     let chartType = "line";
     for(let i in attributes){
-        //console.log(options);
+        console.log(options);
         const attribute = attributes[i];
 
         if(attribute === '') continue;
@@ -56,6 +56,8 @@ module.exports = async (req,res,next) =>{
             //console.log(options);
             if(atts.length - 1 === i){
                 objRef[attName] =  checkValue(value);
+                // if (isNaN(value)) {objRef[attName] = value;}
+                // else {objRef[attName] = Number(value);}
                 if (attName === "type" ) {
                     chartType = value;
                 }
@@ -80,18 +82,23 @@ module.exports = async (req,res,next) =>{
     // }
     //console.log("help");
     //let firstLine = [];
+
+    // switch (chartType){
+    //     case "line":
+    //         transpose(series);
+    //
+    // }
+
+
     let firstLineLength=0;
     if (chartType !== 'dependencywheel' && chartType !== 'networkgraph' && chartType !== 'wordcloud' && chartType !== 'organization' && chartType!=='area') {
         transpose(series);
     }
-    else if (chartType === 'organization' || chartType ==='area') {
+    else if (chartType === 'organization' || chartType === 'area') {
         firstLineLength = series.map(value =>  value[0]).length;
-        //console.log("first line length:", firstLineLength);
+        console.log("first line length:", firstLineLength);
         //console.log("First line:", firstLine);
     }
-
-    series = series.map(row => row.map(checkValue));
-    console.log("Series is:", series);
 
     let resSeries =[];
     let xAxisCategories = [];
@@ -132,7 +139,7 @@ module.exports = async (req,res,next) =>{
         // }
         else {
             if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'polar' || chartType === 'organization' || chartType === 'area'){
-                if (lineNum === 0 && chartType !== 'organization' && chartType !== 'area') {
+                if (lineNum === 0 && chartType !== 'organization' && chartType!=='area') {
                     if (chartType === 'dependencywheel'){
                         data.keys = line.map(l => {
                             const regex = /\(([^)]+)\)/;
@@ -144,7 +151,7 @@ module.exports = async (req,res,next) =>{
                     else if (chartType === 'polar') {
                         //const noEmptyStrings = line.filter((str) => str !== '');
                         polarAtts = line.filter((str) => str !== '');
-                        //console.log("Length of polar atts:", polarAtts.length);
+                        console.log("Length of polar atts:", polarAtts.length);
                     }
                         // else if (chartType === 'organization') {
                         //     //polarAtts = firstLine;
@@ -157,11 +164,10 @@ module.exports = async (req,res,next) =>{
                         //         keys: line,
                         //     }
                         // }
-
                         options.plotOptions = {
-                            "networkgraph": {
+                            networkgraph: {
                                 keys: line,
-                            },
+                            }
                         }
                         //options.plotOptions.networkgraph.keys =line
                     }
@@ -177,9 +183,9 @@ module.exports = async (req,res,next) =>{
                             polarJSON[polarAtts[i]] = line[i];
                         }
                         polarJSON["data"] = line.slice(polarAtts.length-1).map(num =>{return Number(num)});
-                        //console.log("the JSON is:",polarJSON);
+                        console.log("the JSON is:",polarJSON);
                         if (Object.keys(polarJSON).length !==0) polarData.push(polarJSON);
-                        //console.log("polarData is:", polarData);
+                        console.log("polarData is:", polarData);
                     }
                     else if (chartType === 'organization' || chartType === 'area') {
                         if (line[0]!== '') {
@@ -193,20 +199,23 @@ module.exports = async (req,res,next) =>{
                             else {
                                 if (currentAtt!=='') orgData[currentAtt] = tempArray;
                             }
+                            //if (currentAtt!=='') orgData[currentAtt] = tempArray;
                             //if (Object.keys(polarJSON).length !==0) polarData.push(polarJSON[currentAtt]);
                             //tempJSON = {};
                             tempArray = [];
                             currentAtt = line[0];
-                            //console.log("Att:", currentAtt);
+                            console.log("Att:", currentAtt);
                             innerAtts=line.slice(1);
                             // polarJSON[currentAtt] = [];
                         }
                         else {
                             if (innerAtts.length === 0) {
                                 //if (!polarJSON.hasOwnProperty(currentAtt))  polarJSON[currentAtt] = [];
+                                // if (currentAtt === 'keys') tempArray = line.slice(1);
+                                // else tempArray.push(line.slice(1));
                                 if (currentAtt === 'keys') tempArray = line.slice(1).map(num => checkValue(num));
                                 else tempArray.push(line.slice(1).map(num => checkValue(num)));
-                                //console.log("temp array:", tempArray);
+                                console.log("temp array:", tempArray);
                                 // console.log("lineslice1:", line.slice(1));
                                 // polarJSON[currentAtt].push(line.slice(1)); // line[i];
                                 // console.log("Here1", polarJSON[currentAtt]);
@@ -226,6 +235,10 @@ module.exports = async (req,res,next) =>{
                                 //if (thisSession.hasOwnProperty("merchant_id"))
                                 //polarJSON[currentAtt] = [];
                                 tempJSON = {};
+                                // for (let j = 0; j < innerAtts.length; j++) {
+                                //     if (line[j+1]!=='' && line[j+1]!==undefined)
+                                //         tempJSON[innerAtts[j]] = line[j + 1];
+                                // }
                                 for (let j = 0; j < innerAtts.length; j++) {
                                     if (line[j + 1] !== '' && line[j + 1] !== undefined){
                                         let moreAtts = innerAtts[j].split(".");
@@ -257,9 +270,18 @@ module.exports = async (req,res,next) =>{
                                 // }
                                 //}
                                 //polarData.push(polarJSON);
+                            //}
+                               // tempArray.push(tempJSON);
+                                //polarData[currentAtt].push(tempJSON);
+                                console.log("Here2:",  tempArray);
+                                // }
+                                //}
+                                //polarData.push(polarJSON);
                             }
                             if (lineNum === firstLineLength-1){ //&& Object.keys(tempJSON).length !== 0) {
                                 //polarJSON[currentAtt].push(tempJSON);
+                                //orgData[currentAtt] = tempArray;
+                                //polarData.push(polarJSON[currentAtt]);
                                 if (chartType === 'organization')
                                     orgData[currentAtt] = tempArray;
                                 else {
@@ -270,6 +292,7 @@ module.exports = async (req,res,next) =>{
                                         options[currentAtt] = tempArray;
                                 }
                                 //polarData.push(polarJSON[currentAtt]);
+
                             }
                         }
                         //console.log("the JSON is:",polarJSON);
@@ -283,7 +306,6 @@ module.exports = async (req,res,next) =>{
                             else return Number(l);
                         })
                         dataArrays.push(line2);
-                        console.log("dataArrays is:", dataArrays)
                     }
                 }
             }
@@ -304,17 +326,16 @@ module.exports = async (req,res,next) =>{
             //     data.data = pieOptions;
             // }
             if (chartType !== 'pie' && chartType !== 'dependencywheel' && chartType !== 'networkgraph' && chartType !== 'wordcloud' && chartType !== 'polar') {
-                data.data = line.slice(1);
-                    // .map(num => {
-                    // if (num === undefined) {
-                    //     return null;
-                    // }
-                    // if (data.name === "Category" || isNaN(num)) {//"xAxis.categories"
-                    //     return num;
-                    // } else {
-                    //     return Number(num);
-                    // }
-                //});
+                data.data = line.slice(1).map(num => {
+                    if (num === undefined) {
+                        return null;
+                    }
+                    if (data.name === "Category" || isNaN(num)) {//"xAxis.categories"
+                        return num;
+                    } else {
+                        return Number(num);
+                    }
+                });
             }
             else if (chartType === 'pie') {
                 let temp = [];
@@ -326,7 +347,7 @@ module.exports = async (req,res,next) =>{
                 }
             }
         }
-        if (line[0] !== "Category" && chartType!=='polar' && chartType !== 'networkgraph' && chartType !== 'dependencywheel' && chartType !== 'wordcloud' && chartType!=='organization' && chartType!=='area') { //data.name !== "Category"
+        if (line[0] !== "Category" && chartType!=='polar'  && chartType!=='organization' && chartType!=='area' && chartType !== 'networkgraph' && chartType !== 'dependencywheel' && chartType !== 'wordcloud') { //data.name !== "Category"
             resSeries.push(data);
             //options.push(data);
         }
@@ -346,34 +367,34 @@ module.exports = async (req,res,next) =>{
         }
         if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'wordcloud'){
             data.data = dataArrays;
-        // }
-        // if (chartType === 'networkgraph' || chartType === 'dependencywheel' || chartType === 'wordcloud') {
             networkArray = data.data;
-            // nullJSON["data"] = data.data;
-            // resSeries.push(nullJSON);
+
         }
         if (chartType === 'polar' ) {
             resSeries = polarData;
             //console.log(resSeries);
         }
-        if (chartType === 'organization'){ // || chartType === 'area'
+        if (chartType === 'organization'){
             let nullArray = [];
             nullArray.push(orgData);
             resSeries = nullArray;
         }
         lineNum++;
     }
-    if (chartType === 'networkgraph' || chartType === 'dependencywheel' || chartType === 'wordcloud') {
+
+    if (chartType === 'dependencywheel' || chartType === 'networkgraph' || chartType === 'wordcloud'){
         let nullJSON = {};
         nullJSON["data"] = networkArray;
         resSeries.push(nullJSON);
+
     }
-    //if (chartType === 'area') options=
+
     if (chartType !== 'area')
         options.series = resSeries;
+    // options.series = resSeries;
     //console.log(resSeries);
 
     req.options = options;
-    // console.log("Final object", JSON.stringify(options, null, 2));
+    console.log("Final object",options);
     next()
 }
