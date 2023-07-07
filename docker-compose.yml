@@ -24,6 +24,10 @@ services:
       - ./server:/usr/src/app
     networks:
       - SaaS23-1-myCharts
+    environment:
+      - OPENSSL_CONF=/etc/ssl
+      - ACCEPT_HIGHCHARTS_LICENSE=fuckyou
+      - HIGHCHARTS_VERSION=10.3.3
 
   authenticator:
     container_name: saas23-1-authenticator
