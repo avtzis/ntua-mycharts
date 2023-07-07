@@ -1,7 +1,10 @@
 FROM docker.io/node:18
 WORKDIR /usr/src/app
 COPY package*.json .
-RUN npm i --loglevel verbose
+COPY phantom node_modules/
+# RUN npm i phantomjs-prebuilt --loglevel verbose
+# RUN npm i --loglevel verbose
+RUN npm run installer
 COPY data data/
 COPY middleware middleware/
 COPY models models/
